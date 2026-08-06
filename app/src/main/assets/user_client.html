@@ -14124,6 +14124,13 @@ function renderProfile(){
     h+='</div>';
     h+='</div>';
 
+    // v3.32.1 赞助开发者
+    h+='<div class="chat-list-item" onclick="showSponsor()" style="border-radius:14px;margin-bottom:8px;background:rgba(20,20,46,.5)">';
+    h+='<div class="cli-avatar" style="--c1:#ff5c7a;--c2:#e8365a">❤️</div>';
+    h+='<div class="cli-info"><div class="cli-name">赞助开发者</div>';
+    h+='<div class="cli-last">请开发者喝杯咖啡 ☕️</div></div>';
+    h+='</div>';
+
     // 版本信息
     h+='<div style="text-align:center;padding:20px;color:#444;font-size:11px">';
     h+='幻语 AI · v3.2.0<br>让AI角色陪你聊天';
@@ -14131,6 +14138,33 @@ function renderProfile(){
 
     c.innerHTML=h;
   }catch(e){showErr("renderProfile错误:"+e.message)}
+}
+
+function showSponsor(){
+  if(document.getElementById('sponsorOverlay'))return;
+  var ov=document.createElement('div');
+  ov.id='sponsorOverlay';
+  ov.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.78);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  ov.innerHTML='<div style="background:var(--card-bg,#151530);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:20px;max-width:94%;width:360px;max-height:88vh;overflow-y:auto;text-align:center;position:relative">'+
+    '<div style="font-size:18px;font-weight:bold;margin-bottom:6px">❤️ 赞助开发者</div>'+
+    '<div style="font-size:12px;color:#999;margin-bottom:14px;line-height:1.7">如果这个应用对你有帮助，<br>欢迎请开发者喝杯咖啡 ☕️<br>你的支持是持续更新的动力！</div>'+
+    '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'+
+      '<div style="flex:1;min-width:130px">'+
+        '<div style="font-size:12px;color:#07c160;margin-bottom:6px">💚 微信赞赏</div>'+
+        '<img src="images/wechat-pay-qr.png" style="width:100%;border-radius:12px;background:#fff;padding:6px"/>'+
+      '</div>'+
+      '<div style="flex:1;min-width:130px">'+
+        '<div style="font-size:12px;color:#1677ff;margin-bottom:6px">💙 支付宝</div>'+
+        '<img src="images/alipay-pay-qr.jpg" style="width:100%;border-radius:12px;background:#fff;padding:6px"/>'+
+      '</div>'+
+    '</div>'+
+    '<div style="font-size:11px;color:#666;margin-top:12px">长按保存二维码 → 打开微信/支付宝扫一扫</div>'+
+    '<div style="margin-top:14px;display:flex;gap:10px;justify-content:center">'+
+      '<button onclick="document.body.removeChild(document.getElementById('sponsorOverlay'))" style="padding:8px 30px;border:none;border-radius:20px;background:linear-gradient(135deg,#ff5c7a,#e8365a);color:#fff;font-size:14px">收下心意</button>'+
+    '</div>'+
+  '</div>';
+  ov.addEventListener('click',function(e){if(e.target===ov)document.body.removeChild(ov);});
+  document.body.appendChild(ov);
 }
 
 function resetAllData(){

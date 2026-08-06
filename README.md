@@ -4,7 +4,7 @@
   <a href="https://github.com/19923421354/huanyuai-chat/releases"><img src="https://img.shields.io/github/v/release/19923421354/huanyuai-chat?color=brightgreen&label=最新版本" alt="Release"></a>
   <a href="https://github.com/19923421354/huanyuai-chat/stargazers"><img src="https://img.shields.io/github/stars/19923421354/huanyuai-chat?style=social" alt="Stars"></a>
   <a href="https://github.com/19923421354/huanyuai-chat/network"><img src="https://img.shields.io/github/forks/19923421354/huanyuai-chat?style=social" alt="Forks"></a>
-  <a href="https://github.com/19923421354/huanyuai-chat/releases/download/v3.33.0/huanyuai-chat-v3.33.0.apk"><img src="https://img.shields.io/badge/下载-APK%20v3.33.0-8b6cff" alt="下载APK"></a>
+  <a href="https://github.com/19923421354/huanyuai-chat/releases/download/v3.36.0/huanyuai-chat-v3.36.0.apk"><img src="https://img.shields.io/badge/下载-APK%20v3.36.0-8b6cff" alt="下载APK"></a>
   <a href="https://img.shields.io/github/downloads/19923421354/huanyuai-chat/total"><img src="https://img.shields.io/github/downloads/19923421354/huanyuai-chat/total?color=orange&label=下载量" alt="Downloads"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/19923421354/huanyuai-chat" alt="License"></a>
 </p>
@@ -32,7 +32,7 @@
 
 ## 📲 下载安装
 
-> ⬇️ **直接下载 APK：** [幻语AI v3.33.0 APK（约 1.8 MB，内置赞助入口）](https://github.com/19923421354/huanyuai-chat/releases/download/v3.33.0/huanyuai-chat-v3.33.0.apk)
+> ⬇️ **直接下载 APK：** [幻语AI v3.36.0 APK（约 3.2 MB，融合版）](https://github.com/19923421354/huanyuai-chat/releases/download/v3.36.0/huanyuai-chat-v3.36.0.apk)
 > 💖 应用内「我的 → 赞助开发者」支持微信/支付宝扫码打赏 ｜ 🔄 检查更新已修复 ｜ 📋 新增更新日志
 
 - 最低系统：Android 5.0 (API 21)

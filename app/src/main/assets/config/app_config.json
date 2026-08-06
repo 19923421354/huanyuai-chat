@@ -1,0 +1,14 @@
+{
+  "version": "3.26.0",
+  "version_code": 38,
+  "app_name": "幻语AI",
+  "supported_formats": [
+    "gguf",
+    "bin",
+    "onnx",
+    "safetensors",
+    "pt",
+    "pth"
+  ],
+  "max_model_size_gb": 4
+}

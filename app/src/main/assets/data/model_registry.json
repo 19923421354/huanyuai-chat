@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "models": [
+    {
+      "id": "qwen2.5-0.5b",
+      "name": "Qwen2.5-0.5B-Instruct",
+      "format": "safetensors",
+      "size_mb": 988,
+      "description": "通义千问0.5B",
+      "download_url": "",
+      "mirror_url": "",
+      "min_ram_mb": 2048,
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "tinyllama-1.1b",
+      "name": "TinyLlama-1.1B-Chat",
+      "format": "gguf",
+      "size_mb": 670,
+      "description": "TinyLlama",
+      "download_url": "",
+      "mirror_url": "",
+      "min_ram_mb": 3072,
+      "license": "Apache-2.0"
+    }
+  ]
+}

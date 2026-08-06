@@ -86,6 +86,21 @@ app/src/main/
 | `backupLocalStorage(json)` / `restoreLocalStorage()` | localStorage 加密备份/恢复 |
 | `getModelDir()` / `getDataDir()` / `getCacheDir()` | 获取目录路径 |
 
+## 💖 赞助开发者
+
+如果这个项目对你有帮助，欢迎**请开发者喝杯咖啡** ☕️～ 你的每一份支持都是持续更新的动力！
+
+<div align="center">
+
+| 微信赞赏 | 支付宝 |
+| :---: | :---: |
+| <img src="docs/sponsor/wechat-pay-qr.png" width="240" alt="微信赞赏码"/> | <img src="docs/sponsor/alipay-qr.jpg" width="240" alt="支付宝收款码"/> |
+
+</div>
+
+> 📱 使用微信 / 支付宝 **扫一扫** 或 **长按识别** 二维码即可赞助。
+> 感谢每一位支持者！你的名字会出现在贡献者名单中 🙏
+
 ## 📜 许可证
 
 本项目以 [MIT License](LICENSE) 开源。

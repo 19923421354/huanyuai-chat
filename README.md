@@ -1,5 +1,15 @@
 # 幻语AI (HuanyuAI Chat)
 
+<p align="center">
+  <a href="https://github.com/19923421354/huanyuai-chat/releases"><img src="https://img.shields.io/github/v/release/19923421354/huanyuai-chat?color=brightgreen&label=最新版本" alt="Release"></a>
+  <a href="https://github.com/19923421354/huanyuai-chat/stargazers"><img src="https://img.shields.io/github/stars/19923421354/huanyuai-chat?style=social" alt="Stars"></a>
+  <a href="https://github.com/19923421354/huanyuai-chat/network"><img src="https://img.shields.io/github/forks/19923421354/huanyuai-chat?style=social" alt="Forks"></a>
+  <a href="https://github.com/19923421354/huanyuai-chat/releases/download/v3.32.0/huanyuai-chat-v3.32.0.apk"><img src="https://img.shields.io/badge/下载-APK%20v3.32.0-8b6cff" alt="下载APK"></a>
+  <a href="https://img.shields.io/github/downloads/19923421354/huanyuai-chat/total"><img src="https://img.shields.io/github/downloads/19923421354/huanyuai-chat/total?color=orange&label=下载量" alt="Downloads"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/19923421354/huanyuai-chat" alt="License"></a>
+</p>
+
+
 一个基于 Android WebView 的 AI 聊天客户端。应用使用本地 HTML/JS 作为前端界面，通过 `JavascriptInterface` 桥接（`AppBridge`）调用 Android 原生能力（文件读写、剪贴板、分享、模型下载、本地数据加密存储等）。
 
 > 本仓库为 [幻语AI / HuanyuAI] 客户端的开源版本，欢迎 Star & Fork！
@@ -17,11 +27,15 @@
 - 📦 **本地大模型支持**：可下载 Qwen、TinyLlama、Phi-2 等 GGUF 模型到设备端使用
 - 🔐 **数据加密**：共享数据使用 AES/CBC + GZIP 加密存储
 
-## 📲 安装
+## 📲 下载安装
+
+> ⬇️ **直接下载 APK：** [幻语AI v3.32.0 APK（约 1.5 MB）](https://github.com/19923421354/huanyuai-chat/releases/download/v3.32.0/huanyuai-chat-v3.32.0.apk)
 
 - 最低系统：Android 5.0 (API 21)
 - 目标系统：Android 9 (API 28)
-- 直接安装 `app/build/outputs/apk/release/` 下构建出的 APK，或从 [Releases](https://github.com/huanyu-ai/huanyu/releases) 下载
+- 下载后直接安装即可（需允许安装未知来源应用）
+- 所有历史版本见 [Releases 页面](https://github.com/19923421354/huanyuai-chat/releases)
+- 也可以自行构建：`./gradlew assembleRelease`
 
 ## 🛠️ 构建
 

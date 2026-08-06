@@ -14098,6 +14098,12 @@ function renderProfile(){
     h+='<div class="cli-avatar" style="--c1:#5cfca8;--c2:#36d88a">🔄</div>';
     h+='<div class="cli-info"><div class="cli-name">检查更新</div>';
     h+='<div class="cli-last">检查最新版本</div></div>';
+    // v3.33.0 更新日志
+    h+='<div class="chat-list-item" onclick="showChangelog()" style="border-radius:14px;margin-bottom:8px;background:rgba(20,20,46,.5)">';
+    h+='<div class="cli-avatar" style="--c1:#fbbf24;--c2:#f59e0b">📋</div>';
+    h+='<div class="cli-info"><div class="cli-name">更新日志</div>';
+    h+='<div class="cli-last">查看各版本更新内容</div></div>';
+    h+='</div>';
     h+='</div>';
     // 手机号绑定
     var __phoneNum = (currentUser&&currentUser.phone)?currentUser.phone:"";
@@ -14133,11 +14139,47 @@ function renderProfile(){
 
     // 版本信息
     h+='<div style="text-align:center;padding:20px;color:#444;font-size:11px">';
-    h+='幻语 AI · v3.2.0<br>让AI角色陪你聊天';
+    h+='幻语AI · v3.33.0<br>让AI角色陪你聊天';
     h+='</div>';
 
     c.innerHTML=h;
   }catch(e){showErr("renderProfile错误:"+e.message)}
+}
+
+function showChangelog(){
+  try{
+    if(document.getElementById('changelogOverlay'))return;
+    var ov=document.createElement('div');
+    ov.id='changelogOverlay';
+    ov.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.78);z-index:99998;display:flex;align-items:center;justify-content:center;padding:16px;';
+    ov.innerHTML='<div style="background:var(--card-bg,#151530);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:20px;max-width:94%;width:380px;max-height:85vh;overflow-y:auto;text-align:center;position:relative">'+
+      '<div style="font-size:18px;font-weight:bold;margin-bottom:10px">📋 更新日志</div>'+
+      '<div id="changelogBody" style="font-size:13px;color:#bbb;line-height:1.8;text-align:left">加载中...</div>'+
+      '<div style="text-align:center;margin-top:14px">'+
+        '<button onclick="document.body.removeChild(document.getElementById('changelogOverlay'))" style="padding:8px 30px;border:none;border-radius:20px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;font-size:14px">关闭</button>'+
+      '</div>'+
+    '</div>';
+    ov.addEventListener('click',function(e){if(e.target===ov)document.body.removeChild(ov);});
+    document.body.appendChild(ov);
+    var body=document.getElementById('changelogBody');
+    try{
+      fetch('https://api.github.com/repos/19923421354/huanyuai-chat/releases?per_page=5').then(function(r){return r.json()}).then(function(list){
+        if(!body)return;
+        if(!list||!list.length){body.innerHTML='暂无更新记录';return}
+        var h='';
+        for(var i=0;i<list.length;i++){
+          var tag=list[i].tag_name||'';
+          var date=(list[i].published_at||'').substring(0,10);
+          var raw=list[i].body||'暂无说明';
+          var lines=raw.split('\n').filter(function(x){return x.trim()}).slice(0,8);
+          h+='<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.06)">'+
+            '<div style="color:#fbbf24;font-weight:bold">'+esc(tag)+' <span style="color:#888;font-weight:normal;font-size:11px">'+esc(date)+'</span></div>'+
+            '<div style="color:#999;font-size:12px;margin-top:4px">'+esc(lines.join('<br>'))+'</div></div>';
+        }
+        body.innerHTML=h;
+      }).catch(function(){if(body)body.innerHTML='网络错误，无法获取更新日志';});
+    }catch(e){if(body)body.innerHTML='网络错误，无法获取更新日志';}
+  }catch(e){showErr("showChangelog错误:"+e.message)}
 }
 
 function showSponsor(){
@@ -14293,23 +14335,14 @@ function updateMsgBadge(){
 }
 
 // ===== 检查更新 =====
-var APP_VERSION="3.31.0";
-var APP_VERSION_CODE=45;
+var APP_VERSION="3.33.0";
+var APP_VERSION_CODE=47;
 var UPDATE_SOURCES=[
-  "https://raw.githubusercontent.com/huanyu-ai/huanyu/main/version.json",
-  "https://gitee.com/huanyu-ai/huanyu/raw/main/version.json",
-  "https://cdn.jsdelivr.net/gh/huanyu-ai/huanyu@main/version.json"
+  "https://raw.githubusercontent.com/19923421354/huanyuai-chat/main/app/src/main/assets/config/version.json",
+  "https://cdn.jsdelivr.net/gh/19923421354/huanyuai-chat@main/app/src/main/assets/config/version.json"
 ];
-var UPDATE_FALLBACK_URL="https://github.com/huanyu-ai/huanyu/releases";
-function getRealVersion(){
-  try{
-    if(window.App&&typeof window.App.getVersion==="function"){
-      var v=window.App.getVersion();
-      if(v)return v;
-    }
-  }catch(e){}
-  return APP_VERSION;
-}
+var UPDATE_FALLBACK_URL="https://github.com/19923421354/huanyuai-chat/releases";
+function getRealVersion(){ return APP_VERSION; }
 function readLocalVersionJson(){
   try{
     if(window.App&&typeof window.App.readAssetText==="function"){
@@ -14342,20 +14375,38 @@ function checkUpdate(isAuto){
     tryNetworkCheck();
 
     function tryNetworkCheck(){
+      var done=false;
+      function finish(data){
+        if(done)return; done=true;
+        try{
+          if(data&&data.version){processResult(data,realVer)}
+          else{showFallback(realVer)}
+        }catch(e){showFallback(realVer)}
+      }
       try{
-        if(window.App&&typeof window.App.fetchUrl==="function"){
-          for(var i=0;i<UPDATE_SOURCES.length;i++){
+        fetch('https://api.github.com/repos/19923421354/huanyuai-chat/releases/latest').then(function(r){return r.json()}).then(function(j){
+          if(j&&j.tag_name){
+            finish({
+              version:String(j.tag_name).replace(/^v/i,''),
+              downloadUrl:(j.assets&&j.assets[0]?j.assets[0].browser_download_url:UPDATE_FALLBACK_URL),
+              size:j.assets&&j.assets[0]?(Math.round(j.assets[0].size/1024/1024*10)/10+' MB'):'未知',
+              features:j.body?j.body.split('\n'):[]
+            });
+          }else{finish(null)}
+        }).catch(function(){finish(null)});
+      }catch(e){finish(null)}
+      setTimeout(function(){
+        for(var i=0;i<UPDATE_SOURCES.length;i++){
+          (function(url){
             try{
-              var resp=window.App.fetchUrl(UPDATE_SOURCES[i]+'?t='+Date.now());
-              if(resp){
-                var data=JSON.parse(resp);
-                if(data&&data.version){processResult(data,realVer);return}
-              }
+              fetch(url+'?t='+Date.now()).then(function(r){return r.json()}).then(function(d){
+                if(d&&d.version)finish(d);
+              }).catch(function(){});
             }catch(e){}
-          }
+          })(UPDATE_SOURCES[i]);
         }
-      }catch(e){}
-      showFallback(realVer);
+      },500);
+      setTimeout(function(){finish(null)},8000);
     }
 
     function processResult(data,curVer){
@@ -16671,7 +16722,7 @@ function exportFullBackup(){
       data[key]=localStorage.getItem(key);
     }
     data.__backup_time=new Date().toISOString();
-    data.__app_version="3.2.0";
+    data.__app_version="3.33.0";
     var json=JSON.stringify(data,null,2);
     var blob=new Blob([json],{type:"application/json"});
     var url=URL.createObjectURL(blob);
@@ -17579,7 +17630,7 @@ function _backupToExternal(){
       }
     }
     allData["_backup_time"]=Date.now();
-    allData["_backup_version"]="3.2.0";
+    allData["_backup_version"]="3.33.0";
     window.App.writeBackup(JSON.stringify(allData));
   }catch(e){}
 }

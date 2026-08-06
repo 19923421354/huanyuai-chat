@@ -4,7 +4,7 @@
   <a href="https://github.com/19923421354/huanyuai-chat/releases"><img src="https://img.shields.io/github/v/release/19923421354/huanyuai-chat?color=brightgreen&label=最新版本" alt="Release"></a>
   <a href="https://github.com/19923421354/huanyuai-chat/stargazers"><img src="https://img.shields.io/github/stars/19923421354/huanyuai-chat?style=social" alt="Stars"></a>
   <a href="https://github.com/19923421354/huanyuai-chat/network"><img src="https://img.shields.io/github/forks/19923421354/huanyuai-chat?style=social" alt="Forks"></a>
-  <a href="https://github.com/19923421354/huanyuai-chat/releases/download/v3.32.0/huanyuai-chat-v3.32.0.apk"><img src="https://img.shields.io/badge/下载-APK%20v3.32.0-8b6cff" alt="下载APK"></a>
+  <a href="https://github.com/19923421354/huanyuai-chat/releases/download/v3.33.0/huanyuai-chat-v3.33.0.apk"><img src="https://img.shields.io/badge/下载-APK%20v3.33.0-8b6cff" alt="下载APK"></a>
   <a href="https://img.shields.io/github/downloads/19923421354/huanyuai-chat/total"><img src="https://img.shields.io/github/downloads/19923421354/huanyuai-chat/total?color=orange&label=下载量" alt="Downloads"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/19923421354/huanyuai-chat" alt="License"></a>
 </p>
@@ -27,11 +27,13 @@
 - 📦 **本地大模型支持**：可下载 Qwen、TinyLlama、Phi-2 等 GGUF 模型到设备端使用
 - 🔐 **数据加密**：共享数据使用 AES/CBC + GZIP 加密存储
 - 💖 **赞助开发者**：应用内「我的」页面提供微信/支付宝赞赏入口，支持开源作者持续维护
+- 🔄 **检查更新**：应用内可联网检测 GitHub 最新版本并提示升级
+- 📋 **更新日志**：应用内可查看各版本更新内容
 
 ## 📲 下载安装
 
-> ⬇️ **直接下载 APK：** [幻语AI v3.32.0 APK（约 1.8 MB，内置赞助入口）](https://github.com/19923421354/huanyuai-chat/releases/download/v3.32.0/huanyuai-chat-v3.32.0.apk)
-> 💖 应用内「我的 → 赞助开发者」支持微信/支付宝扫码打赏
+> ⬇️ **直接下载 APK：** [幻语AI v3.33.0 APK（约 1.8 MB，内置赞助入口）](https://github.com/19923421354/huanyuai-chat/releases/download/v3.33.0/huanyuai-chat-v3.33.0.apk)
+> 💖 应用内「我的 → 赞助开发者」支持微信/支付宝扫码打赏 ｜ 🔄 检查更新已修复 ｜ 📋 新增更新日志
 
 - 最低系统：Android 5.0 (API 21)
 - 目标系统：Android 9 (API 28)

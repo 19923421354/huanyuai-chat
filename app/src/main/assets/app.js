@@ -8482,14 +8482,27 @@ function updateMsgBadge(){
 }
 
 // ===== 检查更新 =====
-var APP_VERSION="3.37.1";
-var APP_VERSION_CODE=339;
+var APP_VERSION="4.0.0";
+var APP_VERSION_CODE=52;
 var UPDATE_SOURCES=[
   "https://raw.githubusercontent.com/19923421354/huanyuai-chat/main/app/src/main/assets/config/version.json",
   "https://cdn.jsdelivr.net/gh/19923421354/huanyuai-chat@main/app/src/main/assets/config/version.json"
 ];
 var UPDATE_FALLBACK_URL="https://github.com/19923421354/huanyuai-chat/releases";
-function getRealVersion(){ return APP_VERSION; }
+// v4.0.0 修复：优先读取打包的 version.json（始终与实际APK版本一致）
+function getRealVersion(){
+  try{
+    // 优先从打包的 version.json 获取真实版本号（最准确）
+    var localVer=readLocalVersionJson();
+    if(localVer&&localVer.version)return localVer.version;
+    // 其次尝试 Android Bridge
+    if(window.App&&typeof window.App.getVersion==="function"){
+      var v=window.App.getVersion();
+      if(v)return v;
+    }
+  }catch(e){}
+  return APP_VERSION;
+}
 function readLocalVersionJson(){
   try{
     if(window.App&&typeof window.App.readAssetText==="function"){
@@ -8498,6 +8511,17 @@ function readLocalVersionJson(){
         var data=JSON.parse(txt);
         if(data&&data.version)return data;
       }
+    }
+  }catch(e){}
+  // v4.0.0 修复：尝试通过 HTTP 读取本地 version.json（兼容某些 WebView 实现）
+  try{
+    var xhr=new XMLHttpRequest();
+    xhr.open('GET','assets/config/version.json?'+Date.now(),false);
+    xhr.overrideMimeType('application/json');
+    xhr.send();
+    if(xhr.status===0||xhr.status===200){
+      var data=JSON.parse(xhr.responseText);
+      if(data&&data.version)return data;
     }
   }catch(e){}
   return null;
@@ -8683,7 +8707,7 @@ function downloadUpdate(){
     var url=dlg?dlg.getAttribute("data-url"):"";
     if(dlg)dlg.remove();
     if(!url){
-      url="https://github.com/19923421354/huanyuai-chat/releases/latest/download/huanyuai-chat-v3.37.1.apk";
+      url="https://github.com/19923421354/huanyuai-chat/releases/latest/download/huanyuai-chat-v4.0.0.apk";
     }
     var filename="huanyuai-chat-update.apk";
     if(window.App&&typeof window.App.downloadApk==="function"){

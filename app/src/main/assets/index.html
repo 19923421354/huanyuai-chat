@@ -8538,16 +8538,18 @@ function updateMsgBadge(){
 }
 
 // ===== 检查更新 =====
-var APP_VERSION="2.9";
-var APP_VERSION_CODE=12;
+var APP_VERSION="4.0.0";
+var APP_VERSION_CODE=52;
 var UPDATE_SOURCES=[
-  "https://raw.githubusercontent.com/huanyu-ai/huanyu/main/version.json",
-  "https://gitee.com/huanyu-ai/huanyu/raw/main/version.json",
-  "https://cdn.jsdelivr.net/gh/huanyu-ai/huanyu@main/version.json"
+  "https://raw.githubusercontent.com/19923421354/huanyuai-chat/main/app/src/main/assets/config/version.json",
+  "https://cdn.jsdelivr.net/gh/19923421354/huanyuai-chat@main/app/src/main/assets/config/version.json"
 ];
-var UPDATE_FALLBACK_URL="https://github.com/huanyu-ai/huanyu/releases";
+var UPDATE_FALLBACK_URL="https://github.com/19923421354/huanyuai-chat/releases";
+// v4.0.0 修复：优先读取打包的 version.json（始终与实际APK版本一致）
 function getRealVersion(){
   try{
+    var localVer=readLocalVersionJson();
+    if(localVer&&localVer.version)return localVer.version;
     if(window.App&&typeof window.App.getVersion==="function"){
       var v=window.App.getVersion();
       if(v)return v;

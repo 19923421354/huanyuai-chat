@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_STORAGE_PERM = 1003;
     private static final String SHARED_DIR = "HuanyuAI";
     private static final String SHARED_FILE = "shared_data.dat";
-    private static final String VERSION = "4.0.2";
+    private static final String VERSION = "4.0.3";
 
     private ValueCallback<Uri[]> filePathCallback;
     private String pendingJsCallback;

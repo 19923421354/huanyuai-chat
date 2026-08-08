@@ -8,8 +8,8 @@ android {
         applicationId "com.huanyuai.chat"
         minSdk 21
         targetSdk 34
-        versionCode 52
-        versionName "4.0.0"
+        versionCode 53
+        versionName "4.0.1"
     }
 
     signingConfigs {

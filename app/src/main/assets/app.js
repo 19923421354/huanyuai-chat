@@ -7898,11 +7898,37 @@ function renderProfile(){
     h+='</div>';
     // 版本信息
     h+='<div style="text-align:center;padding:20px;color:#444;font-size:11px">';
-    h+='幻语AI · v3.36.0<br>让AI角色陪你聊天';
+    h+='幻语AI · v3.37.0<br>让AI角色陪你聊天';
     h+='</div>';
 
     c.innerHTML=h;
   }catch(e){showErr("renderProfile错误:"+e.message)}
+}
+
+function handleBack(){
+  try{
+    var cur='';
+    var vs=document.querySelectorAll('.view.on');
+    if(vs&&vs.length)cur=vs[0].id||'';
+    // 优先关闭打开中的弹窗
+    var ovs=document.querySelectorAll('[class*="overlay"]');
+    for(var oi=ovs.length-1;oi>=0;oi--){
+      var o=ovs[oi];
+      if(o&&o.style&&o.style.display&&o.style.display!=='none'){
+        o.style.display='none';
+        if(typeof closeMemeMaker==='function'&&o.className.indexOf('meme')>=0){}
+        return true;
+      }
+    }
+    // 非主页则返回主页
+    if(cur&&cur!=='vHome'&&cur!=='home'){
+      if(typeof go==='function'){try{go('home');}catch(e2){}}
+      return true;
+    }
+    // 已在主页：不退出应用，给个提示
+    if(typeof showToast==='function'){showToast('已回到主页，可点击导航切换');}
+    return false;
+  }catch(e){return false}
 }
 
 function showSponsor(){
@@ -8103,8 +8129,8 @@ function updateMsgBadge(){
 }
 
 // ===== 检查更新 =====
-var APP_VERSION="3.36.0";
-var APP_VERSION_CODE=50;
+var APP_VERSION="3.37.0";
+var APP_VERSION_CODE=51;
 var UPDATE_SOURCES=[
   "https://raw.githubusercontent.com/19923421354/huanyuai-chat/main/app/src/main/assets/config/version.json",
   "https://cdn.jsdelivr.net/gh/19923421354/huanyuai-chat@main/app/src/main/assets/config/version.json"
@@ -8325,12 +8351,7 @@ function autoCheckUpdate(){
       var diffHours=(now-lastDate)/(1000*60*60);
       if(diffHours<24)return; // 24小时内不重复检查
     }
-    // 强制检查更新 - 发现新版本时弹出不可关闭的更新对话框
-    setTimeout(function(){
-      try{
-        checkUpdate(true);
-      }catch(e){}
-    },3000);
+    // v3.37.0 不再自动检查更新，避免自动弹窗打扰；用户可在「我的→检查更新」手动检查
   }catch(e){}
 }
 
@@ -8369,32 +8390,38 @@ function handleModelImport(input){
           sizeMB:sizeMB,
           format:ext,
           importedAt:new Date().toISOString(),
-          // 存储文件引用（不存储完整数据到localStorage，太大）
-          dataRef:true
+          dataRef:true,
+          path:""
         };
-        
-        // 存储到 IndexedDB
-        storeModelInDB(modelInfo,e.target.result);
-        
-        importedModels.push(modelInfo);
-        lsSet("importedModels",importedModels.map(function(m){
-          return {id:m.id,name:m.name,size:m.size,sizeMB:m.sizeMB,format:m.format,importedAt:m.importedAt,dataRef:true};
-        }));
-        
-        renderImportedModels();
-        showToast("✅ 模型导入成功: "+file.name);
-        
-        // v9.9.9 导入成功后自动启用该模型，无需用户再次点击"使用"
-        setTimeout(function(){
-          try{useImportedModel(modelInfo.id);}catch(e){}
-        },300);
-      }catch(err){
-        showToast("⚠️ 导入失败: "+err.message);
-      }
+        // v3.37.0 保存到公有目录 /storage/emulated/0/HuanyuAI/models/
+        var savedPath='';
+        try{
+          if(window.App&&typeof window.App.saveFile==="function"){
+            var arr=new Uint8Array(e.target.result);
+            var bin='';
+            var chunk=32768;
+            for(var bi=0;bi<arr.length;bi+=chunk){
+              bin+=String.fromCharCode.apply(null,arr.subarray(bi,bi+chunk));
+            }
+            var b64='BASE64:'+btoa(bin);
+            savedPath=window.App.saveFile('models/'+file.name,b64);
+          }
+        }catch(be){savedPath='';}
+        if(savedPath){
+          modelInfo.path=savedPath;
+          importedModels.push(modelInfo);
+          lsSet("importedModels",importedModels.map(function(m){
+            return {id:m.id,name:m.name,size:m.size,sizeMB:m.sizeMB,format:m.format,importedAt:m.importedAt,dataRef:true,path:m.path};
+          }));
+          renderImportedModels();
+          showToast("✅ 模型导入成功: "+file.name);
+          setTimeout(function(){try{useImportedModel(modelInfo.id);}catch(e){}},300);
+        }else{
+          showToast("⚠️ 模型保存失败，请检查存储权限");
+        }
+      }catch(err){showToast("⚠️ 导入失败: "+err.message);}
     };
-    reader.onerror=function(){
-      showToast("⚠️ 文件读取失败");
-    };
+    reader.onerror=function(){showToast("⚠️ 文件读取失败");};
     reader.readAsArrayBuffer(file);
     
     // 清空 input 以便重复选择
@@ -9046,7 +9073,18 @@ function renderModelMarket(){
       var m=MODEL_MARKET[i];
       var sizeTxt=m.sizeMB>=1024?(m.sizeMB/1024).toFixed(2)+" GB":m.sizeMB+" MB";
       var dl=activeDownloads[m.id];
-      var btnTxt=dl?"下载中 "+dl+"%":"立即下载";
+      var isDL=false;
+      try{if(lsGet("model_dl_"+m.id)===1)isDL=true;}catch(e){}
+      if(!isDL){
+        try{
+          var mf=getModelFilename(m);
+          for(var imi=0;imi<importedModels.length;imi++){
+            if(importedModels[imi].name&&importedModels[imi].name===mf){isDL=true;break;}
+          }
+        }catch(e){}
+      }
+      var btnTxt=isDL?"✅ 已下载":(dl?"下载中 "+dl+"%":"立即下载");
+      var btnColor=isDL?'style="flex-shrink:0;padding:10px 14px;font-size:13px;background:rgba(92,252,168,.15);border-color:rgba(92,252,168,.4);color:#5cfca8"':''+dl?'disabled style="background:#444;color:#aaa;border-color:#555;pointer-events:none"':'';
       var btnDisabled=dl?'disabled style="background:#444;color:#aaa;border-color:#555;pointer-events:none"':'';
       var currentUrl=getModelUrl(m);
       h+='<div class="model-item" style="padding:14px;margin-bottom:12px;border-radius:16px;background:rgba(20,20,46,.5);border:1px solid rgba(124,92,252,.12)">';
@@ -9059,7 +9097,7 @@ function renderModelMarket(){
       h+='<span style="font-size:11px;padding:3px 8px;background:rgba(92,252,168,.12);color:#5cfca8;border-radius:6px">'+sizeTxt+'</span>';
       h+='<span style="font-size:11px;padding:3px 8px;background:rgba(252,184,92,.12);color:#fcb85c;border-radius:6px">RAM ≥ '+m.minRam+'MB</span>';
       h+='</div></div>';
-      h+='<button id="dlBtn_'+m.id+'" class="b" style="flex-shrink:0;padding:10px 14px;font-size:13px" onclick="downloadMarketModel('+i+')" '+btnDisabled+'>'+btnTxt+'</button>';
+      h+='<button id="dlBtn_'+m.id+'" class="b" '+btnColor+' onclick="downloadMarketModel('+i+')" '+btnDisabled+'>'+btnTxt+'</button>';
       h+='</div>';
       if(dl){
         h+='<div style="margin-top:10px;height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden">';
@@ -9120,7 +9158,7 @@ function downloadMarketModel(idx){
       renderModelMarket();
       showToast("📥 开始下载: "+m.name);
       showDownloadStatus("开始下载 "+m.name+" ...");
-      startDownloadPolling(m.id,m.name);
+      startDownloadPolling(m.id,m.name,filename);
     }else{
       showToast("⚠️ 当前环境不支持下载，正在尝试浏览器打开");
       window.open(url,'_blank');
@@ -9128,23 +9166,29 @@ function downloadMarketModel(idx){
   }catch(e){showErr("downloadMarketModel错误:"+e.message)}
 }
 var downloadPollTimer=null;
-function startDownloadPolling(id,name){
+function startDownloadPolling(id,name,fname){
   if(downloadPollTimer)clearInterval(downloadPollTimer);
+  var lastSize=-1;var sameCount=0;
   downloadPollTimer=setInterval(function(){
     try{
-      if(!window.App||!window.App.queryDownloadProgress){return;}
-      var raw=window.App.queryDownloadProgress();
-      var info=JSON.parse(raw||'{}');
-      if(info.percent!=null){
-        activeDownloads[id]=info.percent;
-        renderModelMarket();
-        showDownloadStatus("下载 "+name+": "+info.percent+"% ("+formatBytes(info.downloaded)+" / "+formatBytes(info.total)+")");
-      }
-      if(info.status===8||info.status===16){ // SUCCESS=8, FAILED=16
-        clearInterval(downloadPollTimer);downloadPollTimer=null;
-        if(info.status===16){
-          showToast("❌ 下载失败，code="+info.reason);
-          activeDownloads={};renderModelMarket();
+      if(!window.App||typeof window.App.fileSize!=="function"){return;}
+      var dir='';
+      if(window.App.getModelDir){dir=window.App.getModelDir()||'';}
+      if(!dir)return;
+      var fn=fname||'';
+      if(!fn)return;
+      var path=dir+'/'+fn;
+      var sz=window.App.fileSize(path);
+      if(sz>0){
+        if(sz===lastSize){sameCount++;}else{sameCount=0;}
+        lastSize=sz;
+        try{showDownloadStatus("下载 "+name+": "+(sz/1024/1024).toFixed(1)+" MB");}catch(e){}
+        if(sameCount>=3){
+          clearInterval(downloadPollTimer);downloadPollTimer=null;
+          try{lsSet("model_dl_"+id,1);}catch(e2){}
+          delete activeDownloads[id];
+          renderModelMarket();
+          showToast("✅ 模型下载完成: "+name);
         }
       }
     }catch(e){}

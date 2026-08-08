@@ -4,7 +4,7 @@
   <a href="https://github.com/19923421354/huanyuai-chat/releases"><img src="https://img.shields.io/github/v/release/19923421354/huanyuai-chat?color=brightgreen&label=最新版本" alt="Release"></a>
   <a href="https://github.com/19923421354/huanyuai-chat/stargazers"><img src="https://img.shields.io/github/stars/19923421354/huanyuai-chat?style=social" alt="Stars"></a>
   <a href="https://github.com/19923421354/huanyuai-chat/network"><img src="https://img.shields.io/github/forks/19923421354/huanyuai-chat?style=social" alt="Forks"></a>
-  <a href="https://github.com/19923421354/huanyuai-chat/releases/download/v4.0.0/huanyuai-chat-v4.0.0.apk"><img src="https://img.shields.io/badge/下载-APK%20v4.0.0-8b6cff" alt="下载APK"></a>
+  <a href="https://github.com/19923421354/huanyuai-chat/releases/download/v4.0.1/huanyuai-chat-v4.0.1.apk"><img src="https://img.shields.io/badge/下载-APK%20v4.0.1-8b6cff" alt="下载APK"></a>
   <a href="https://img.shields.io/github/downloads/19923421354/huanyuai-chat/total"><img src="https://img.shields.io/github/downloads/19923421354/huanyuai-chat/total?color=orange&label=下载量" alt="Downloads"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/19923421354/huanyuai-chat" alt="License"></a>
 </p>
@@ -32,23 +32,26 @@
 - 🔄 **检查更新**：应用内可联网检测 GitHub 最新版本并提示升级（v4.0.0修复误报bug）
 - 📋 **更新日志**：应用内可查看各版本更新内容
 
-## 🆕 v4.0.0 更新内容
+## 🆕 v4.0.1 更新内容
 
+- **新增语音朗读优化**：支持语速调节、暂停/继续朗读
+- **新增消息收藏管理器**：查看和管理所有收藏的消息
+- **新增字体大小调节**：支持小/中/大/超大四种字号
+- **新增消息引用回复**：长按消息可引用回复
+- **新增聊天记录自动备份**：定时备份到本地存储
+- **新增AI回复重新生成**：一键重新生成AI回答
+- **新增表情包收藏**：支持收藏和快速发送表情
+- **优化消息列表性能**：虚拟滚动+懒加载
+- **优化深色/浅色/AMOLED主题切换体验**
 - **修复所有已知闪退问题**：优化 WebView 初始化流程，添加异常捕获与错误处理
 - **升级目标 SDK 到 34**：更安全、更稳定，兼容 Android 14
 - **新增加载进度条**：页面加载状态一目了然
-- **新增页面加载错误提示**：加载失败时显示友好提示
 - **新增文件分享功能**：使用 FileProvider 安全分享文件
-- **新增网络状态检测**：JavaScript 可获取网络连接状态
-- **新增电量信息获取**：JavaScript 可获取设备电量
-- **优化存储权限管理**：Android 11+ 自动适配 Scoped Storage
-- **优化 Activity 生命周期**：防止内存泄漏
-- **优化 WebView 配置**：支持更多内容类型
 - **升级构建系统**：Gradle 8.14.4 + AGP 8.13.2，构建更快更稳定
 
 ## 📲 下载安装
 
-> ⬇️ **直接下载 APK：** [幻语AI v4.0.0 APK（约 4 MB）](https://github.com/19923421354/huanyuai-chat/releases/download/v4.0.0/huanyuai-chat-v4.0.0.apk)
+> ⬇️ **直接下载 APK：** [幻语AI v4.0.1 APK（约 3 MB）](https://github.com/19923421354/huanyuai-chat/releases/download/v4.0.1/huanyuai-chat-v4.0.1.apk)
 
 - 最低系统：Android 5.0 (API 21)
 - 目标系统：Android 14 (API 34)

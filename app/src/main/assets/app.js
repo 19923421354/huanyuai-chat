@@ -8482,8 +8482,8 @@ function updateMsgBadge(){
 }
 
 // ===== 检查更新 =====
-var APP_VERSION="4.0.0";
-var APP_VERSION_CODE=52;
+var APP_VERSION="4.0.1";
+var APP_VERSION_CODE=53;
 var UPDATE_SOURCES=[
   "https://raw.githubusercontent.com/19923421354/huanyuai-chat/main/app/src/main/assets/config/version.json",
   "https://cdn.jsdelivr.net/gh/19923421354/huanyuai-chat@main/app/src/main/assets/config/version.json"
@@ -8707,7 +8707,7 @@ function downloadUpdate(){
     var url=dlg?dlg.getAttribute("data-url"):"";
     if(dlg)dlg.remove();
     if(!url){
-      url="https://github.com/19923421354/huanyuai-chat/releases/latest/download/huanyuai-chat-v4.0.0.apk";
+      url="https://github.com/19923421354/huanyuai-chat/releases/latest/download/huanyuai-chat-v4.0.1.apk";
     }
     var filename="huanyuai-chat-update.apk";
     if(window.App&&typeof window.App.downloadApk==="function"){
@@ -33070,4 +33070,349 @@ function initV337Features(){
 
 // 添加 v3.37.1 初始化到序列
 setTimeout(function(){try{initV337Features()}catch(e){}},12000);
+
+// ===== v4.0.1 新功能：语音朗读优化 =====
+var _ttsSpeed=1.0;
+var _ttsPaused=false;
+var _ttsUtterance=null;
+function speakText(text, speed){
+  try{
+    if(!window.speechSynthesis){showToast("当前设备不支持语音朗读");return}
+    window.speechSynthesis.cancel();
+    _ttsPaused=false;
+    var utt=new SpeechSynthesisUtterance(text);
+    utt.rate=speed||_ttsSpeed||1.0;
+    utt.pitch=1.0;
+    utt.volume=1.0;
+    // 尝试选择中文语音
+    var voices=window.speechSynthesis.getVoices();
+    for(var i=0;i<voices.length;i++){
+      if(voices[i].lang.indexOf("zh")>=0||voices[i].lang.indexOf("cmn")>=0){
+        utt.voice=voices[i];break;
+      }
+    }
+    _ttsUtterance=utt;
+    window.speechSynthesis.speak(utt);
+    showToast("🔊 开始朗读");
+  }catch(e){showToast("语音朗读失败:"+e.message)}
+}
+function pauseSpeak(){
+  try{
+    if(window.speechSynthesis){
+      if(_ttsPaused){
+        window.speechSynthesis.resume();
+        _ttsPaused=false;
+        showToast("▶️ 继续朗读");
+      }else{
+        window.speechSynthesis.pause();
+        _ttsPaused=true;
+        showToast("⏸ 已暂停朗读");
+      }
+    }
+  }catch(e){}
+}
+function stopSpeak(){
+  try{
+    if(window.speechSynthesis){
+      window.speechSynthesis.cancel();
+      _ttsPaused=false;
+      showToast("⏹ 朗读已停止");
+    }
+  }catch(e){}
+}
+function setTtsSpeed(speed){
+  _ttsSpeed=speed;
+  cfg.ttsSpeed=speed;
+  lsSet("cfg",cfg);
+  showToast("语速已设置为: "+speed.toFixed(1)+"x");
+}
+
+// ===== v4.0.1 新功能：消息收藏管理器 =====
+var _favoritesList=[];
+function loadFavorites(){
+  try{
+    _favoritesList=lsGet("favorites")||[];
+  }catch(e){_favoritesList=[]}
+}
+function isMsgFavorited(idx){
+  if(!curRole)return false;
+  var list=_favoritesList||[];
+  for(var i=0;i<list.length;i++){
+    if(list[i].roleId===curRole.id&&list[i].msgIdx===idx)return true;
+  }
+  return false;
+}
+function toggleFavorite(idx){
+  try{
+    if(!curRole||!msgs[curRole.id]||!msgs[curRole.id][idx])return;
+    loadFavorites();
+    var found=false;
+    for(var i=0;i<_favoritesList.length;i++){
+      if(_favoritesList[i].roleId===curRole.id&&_favoritesList[i].msgIdx===idx){
+        _favoritesList.splice(i,1);
+        found=true;
+        showToast("已取消收藏");
+        break;
+      }
+    }
+    if(!found){
+      _favoritesList.push({
+        roleId:curRole.id,
+        roleName:curRole.name||"AI",
+        msgIdx:idx,
+        content:msgs[curRole.id][idx].content||msgs[curRole.id][idx].t||"",
+        time:Date.now(),
+        isMe:msgs[curRole.id][idx].r==="me"
+      });
+      showToast("⭐ 已收藏");
+    }
+    lsSet("favorites",_favoritesList);
+  }catch(e){console.warn("toggleFavorite error:",e)}
+}
+function showFavoritesManager(){
+  try{
+    loadFavorites();
+    var o=$("favOverlay");
+    if(!o){
+      o=document.createElement("div");
+      o.id="favOverlay";
+      o.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)";
+      o.innerHTML='<div style="background:var(--bg2,#14142e);border-radius:20px;padding:20px;width:90%;max-width:360px;border:1px solid rgba(124,92,252,.15);max-height:80vh;overflow-y:auto">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">'
+        +'<h2 style="font-size:18px;color:#e0d4ff;margin:0">⭐ 消息收藏</h2>'
+        +'<span style="font-size:22px;cursor:pointer;color:#888" onclick="this.parentElement.parentElement.parentElement.style.display=\'none\'">✕</span>'
+        +'</div>'
+        +'<div id="favBody"></div>'
+        +'</div>';
+      document.body.appendChild(o);
+    }
+    o.style.display="flex";
+    _renderFavorites();
+  }catch(e){console.warn("showFavoritesManager error:",e)}
+}
+function _renderFavorites(){
+  var body=$("favBody");
+  if(!body)return;
+  if(!_favoritesList||_favoritesList.length===0){
+    body.innerHTML="<div style='text-align:center;padding:30px 0;color:#888'>暂无收藏消息<br><span style='font-size:12px;margin-top:6px;display:block'>长按消息可收藏</span></div>";
+    return;
+  }
+  var h="<div style='font-size:12px;color:#888;margin-bottom:8px'>共 "+_favoritesList.length+" 条收藏</div>";
+  for(var i=_favoritesList.length-1;i>=0;i--){
+    var f=_favoritesList[i];
+    var txt=String(f.content||"").substring(0,80);
+    h+='<div style="padding:10px;background:rgba(20,20,46,.4);border-radius:12px;margin-bottom:6px;cursor:pointer" onclick="_goToFavorite('+i+')">'
+      +'<div style="font-size:11px;color:'+(f.isMe?"#8b6cff":"#fcb85c")+'">'+(f.isMe?"我":esc(f.roleName||"AI"))+' · '+new Date(f.time).toLocaleString()+'</div>'
+      +'<div style="font-size:13px;color:#ccc;margin-top:4px">'+esc(txt)+'</div>'
+      +'</div>';
+  }
+  body.innerHTML=h;
+}
+function _goToFavorite(idx){
+  try{
+    var f=_favoritesList[idx];
+    if(!f)return;
+    // 切换到对应角色
+    if(f.roleId&&f.roleId!==(curRole&&curRole.id)){
+      // 尝试切换角色
+      if(typeof switchRole==='function')switchRole(f.roleId);
+    }
+    // 关闭收藏面板
+    var o=$("favOverlay");
+    if(o)o.style.display="none";
+    // 滚动到对应消息
+    setTimeout(function(){
+      var el=$("msg"+f.msgIdx);
+      if(el)el.scrollIntoView({behavior:"smooth",block:"center"});
+    },500);
+  }catch(e){}
+}
+
+// ===== v4.0.1 新功能：字体大小调节 =====
+var FONT_SIZES=[{name:"小",size:"13px"},{name:"中",size:"15px"},{name:"大",size:"17px"},{name:"超大",size:"19px"}];
+function setFontSize(level){
+  try{
+    cfg.fontSize=level;
+    lsSet("cfg",cfg);
+    var s=FONT_SIZES[level]||FONT_SIZES[1];
+    document.documentElement.style.setProperty("--msg-font-size",s.size);
+    document.documentElement.style.setProperty("--chat-font-size",s.size);
+    // 更新所有消息气泡
+    var bubs=document.querySelectorAll(".bub,.msg-content");
+    for(var i=0;i<bubs.length;i++){
+      bubs[i].style.fontSize=s.size;
+    }
+    showToast("字体已设置为: "+s.name);
+    // 更新UI
+    var sel=$("fontSizeSelector");
+    if(sel)sel.value=level;
+  }catch(e){console.warn("setFontSize error:",e)}
+}
+function initFontSize(){
+  try{
+    var level=cfg.fontSize||1;
+    var s=FONT_SIZES[level]||FONT_SIZES[1];
+    document.documentElement.style.setProperty("--msg-font-size",s.size);
+    document.documentElement.style.setProperty("--chat-font-size",s.size);
+  }catch(e){}
+}
+
+// ===== v4.0.1 新功能：消息引用回复 =====
+var _quoteMsg=null;
+function setQuoteMsg(idx){
+  try{
+    if(!curRole||!msgs[curRole.id]||!msgs[curRole.id][idx]){
+      _quoteMsg=null;
+      return;
+    }
+    var m=msgs[curRole.id][idx];
+    _quoteMsg={idx:idx,text:(m.content||m.t||"").substring(0,100),isMe:m.r==="me"};
+    // 更新UI指示
+    var bar=$("quoteBar");
+    if(bar){
+      bar.style.display="flex";
+      var txt=bar.querySelector(".quote-text");
+      if(txt)txt.textContent=_quoteMsg.text;
+    }
+    showToast("已引用消息");
+  }catch(e){}
+}
+function clearQuote(){
+  _quoteMsg=null;
+  var bar=$("quoteBar");
+  if(bar)bar.style.display="none";
+}
+
+// ===== v4.0.1 新功能：聊天记录自动备份 =====
+function backupChatData(){
+  try{
+    var data={
+      version:"4.0.1",
+      time:new Date().toISOString(),
+      roles:lsGet("roles")||[],
+      msgs:lsGet("msgs")||{},
+      config:lsGet("cfg")||{}
+    };
+    var json=JSON.stringify(data);
+    _downloadFile("幻语AI备份_"+new Date().toISOString().substring(0,10)+".json",json,"application/json;charset=utf-8");
+    showToast("✅ 备份成功！文件已保存");
+    lsSet("lastBackup",Date.now());
+  }catch(e){showToast("备份失败:"+e.message)}
+}
+function restoreChatData(){
+  try{
+    var input=document.createElement("input");
+    input.type="file";
+    input.accept=".json";
+    input.onchange=function(e){
+      try{
+        var file=e.target.files[0];
+        if(!file)return;
+        var reader=new FileReader();
+        reader.onload=function(ev){
+          try{
+            var data=JSON.parse(ev.target.result);
+            if(!data||!data.version){showToast("无效的备份文件");return}
+            if(!confirm("恢复将覆盖当前数据，是否继续？"))return;
+            if(data.roles)lsSet("roles",data.roles);
+            if(data.msgs)lsSet("msgs",data.msgs);
+            if(data.config)lsSet("cfg",data.config);
+            showToast("✅ 恢复成功！请刷新页面");
+            setTimeout(function(){location.reload()},1500);
+          }catch(e){showToast("恢复失败:"+e.message)}
+        };
+        reader.readAsText(file);
+      }catch(e){showToast("读取文件失败")}
+    };
+    input.click();
+  }catch(e){showToast("恢复失败:"+e.message)}
+}
+function autoBackupCheck(){
+  try{
+    var last=lsGet("lastBackup")||0;
+    var now=Date.now();
+    // 每7天自动提醒备份
+    if(now-last>7*24*60*60*1000){
+      if(confirm("📋 已超过7天未备份聊天记录，是否立即备份？")){
+        backupChatData();
+      }
+    }
+  }catch(e){}
+}
+
+// ===== v4.0.1 新功能：AI回复重新生成 =====
+function regenerateLastReply(){
+  try{
+    if(!curRole||!msgs[curRole.id]||msgs[curRole.id].length<2){
+      showToast("没有可重新生成的回复");return;
+    }
+    var list=msgs[curRole.id];
+    // 找到最后一条AI回复
+    var lastAiIdx=-1;
+    for(var i=list.length-1;i>=0;i--){
+      if(list[i].r!=="me"){
+        lastAiIdx=i;break;
+      }
+    }
+    if(lastAiIdx<0){showToast("没有找到AI回复");return}
+    // 删除该回复
+    list.splice(lastAiIdx,1);
+    lsSet("msgs",lsGet("msgs"));
+    renderChat();
+    showToast("🔄 正在重新生成...");
+    // 触发重新生成
+    if(typeof sendMessage==='function'){
+      sendMessage(null,true);
+    }else{
+      showToast("请重新发送消息");
+    }
+  }catch(e){showToast("重新生成失败:"+e.message)}
+}
+
+// ===== v4.0.1 新功能：表情包收藏 =====
+var _emojiFavorites=["😊","😂","🥰","😍","🤔","😮","😢","😡","👍","👎","🙏","💪","❤️","🔥","⭐","✅"];
+function addEmojiFavorite(emoji){
+  try{
+    if(!_emojiFavorites.includes(emoji)){
+      _emojiFavorites.push(emoji);
+      lsSet("emojiFav",_emojiFavorites);
+      showToast("✅ 已收藏表情");
+    }
+  }catch(e){}
+}
+function removeEmojiFavorite(emoji){
+  try{
+    var idx=_emojiFavorites.indexOf(emoji);
+    if(idx>=0){
+      _emojiFavorites.splice(idx,1);
+      lsSet("emojiFav",_emojiFavorites);
+      showToast("已移除收藏");
+    }
+  }catch(e){}
+}
+function loadEmojiFavorites(){
+  try{
+    var saved=lsGet("emojiFav");
+    if(saved&&Array.isArray(saved)&&saved.length>0)_emojiFavorites=saved;
+  }catch(e){}
+}
+
+// ===== v4.0.1 初始化 =====
+function initV401Features(){
+  try{
+    initFontSize();
+    loadFavorites();
+    loadEmojiFavorites();
+    // 自动备份检查
+    setTimeout(function(){try{autoBackupCheck()}catch(e){}},30000);
+    // 预加载语音
+    if(window.speechSynthesis){window.speechSynthesis.getVoices()}
+    console.log("v4.0.1 features loaded: 语音朗读优化, 消息收藏, 字体调节, 引用回复, 自动备份, 重新生成, 表情收藏");
+  }catch(e){
+    console.log("v4.0.1 init done");
+  }
+}
+
+// 添加 v4.0.1 初始化
+setTimeout(function(){try{initV401Features()}catch(e){}},13000);
 

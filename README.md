@@ -51,7 +51,7 @@
 
 ## 📲 下载安装
 
-> ⬇️ **直接下载 APK：** [幻语AI v4.0.1 APK（约 3 MB）](https://github.com/19923421354/huanyuai-chat/releases/download/v4.0.1/huanyuai-chat-v4.0.1.apk)
+> ⬇️ **直接下载 APK：** [幻语AI v4.0.2 APK（约 7.4 MB）](https://github.com/19923421354/huanyuai-chat/releases/download/v4.0.2/huanyuai-chat-v4.0.2.apk)
 
 - 最低系统：Android 5.0 (API 21)
 - 目标系统：Android 14 (API 34)

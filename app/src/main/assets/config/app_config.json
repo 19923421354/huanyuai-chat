@@ -1,6 +1,6 @@
 {
-  "version": "3.37.0",
-  "version_code": 51,
+  "version": "4.0.0",
+  "version_code": 52,
   "app_name": "幻语AI",
   "supported_formats": [
     "gguf",
@@ -10,5 +10,5 @@
     "pt",
     "pth"
   ],
-  "max_model_size_gb": 4
+  "max_model_size_gb": 8
 }

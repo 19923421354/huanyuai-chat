@@ -9,3 +9,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+release.keystore
+*.keystore
+*.jks
+android-sdk/
+.trae-html-share-packages/
+/tmp/

@@ -1,6 +1,6 @@
 {
-  "version": "3.36.0",
-  "version_code": 50,
+  "version": "3.37.0",
+  "version_code": 51,
   "app_name": "幻语AI",
   "supported_formats": [
     "gguf",

@@ -1,7 +1,7 @@
 {
-  "version": "4.8.0",
-  "versionCode": 70,
-  "updateMsg": "v4.8.0 全面优化+修复Bug：\n1. 全新精美应用图标，减少黑色，更专业美观\n2. 移除无用伪功能（授权激活、会员订阅等）\n3. 修复检查更新功能，显示真实更新日志\n4. 增加更新日志查看功能\n5. 优化用户体验，提升性能\n6. 所有代码完全开源",
+  "version": "4.8.1",
+  "versionCode": 71,
+  "updateMsg": "v4.8.1 修复检查更新+安装兼容性：\n1. 修复检查更新：旧版本app现在能正确检测到新版本\n2. 修复安装兼容性问题\n3. 优化检查更新逻辑，更可靠",
   "url": "https://github.com/19923421354/huanyuai-chat/releases",
   "forceUpdate": false
 }

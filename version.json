@@ -1,7 +1,7 @@
 {
-  "version": "4.8.4",
-  "versionCode": 74,
-  "updateMsg": "v4.8.4 彻底修复版本号显示问题！\n1. 基于 v4.8.3 构建，确保 AndroidManifest.xml 正确\n2. 修复 versionCode(74) 和 versionName(4.8.4)\n3. 已删除旧版 v4.0.8 Release，GitHub API 现在正确返回最新版本\n4. 修复所有版本文件指向正确路径",
+  "version": "4.9.0",
+  "versionCode": 75,
+  "updateMsg": "v4.9.0 全新图标！零黑色，纯色彩\n1. 全新设计应用图标，零黑色部分\n2. 修复安装兼容性问题 - 保留原始APK结构\n3. 继续优化UI界面\n4. 所有代码完全开源",
   "url": "https://github.com/19923421354/huanyuai-chat/releases",
   "forceUpdate": false
 }

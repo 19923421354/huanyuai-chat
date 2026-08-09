@@ -1,7 +1,7 @@
 {
-  "version": "4.8.1",
-  "versionCode": 71,
-  "updateMsg": "v4.8.1 修复检查更新+安装兼容性：\n1. 修复检查更新：旧版本app现在能正确检测到新版本\n2. 修复安装兼容性问题\n3. 优化检查更新逻辑，更可靠",
+  "version": "4.8.2",
+  "versionCode": 72,
+  "updateMsg": "v4.8.2 修复旧版本检测不到新版本 + 安装兼容性：\n1. 修复旧版本(v4.0.x)检查更新时检测不到新版本的问题\n2. 修复安装兼容性问题\n3. 优化检查更新逻辑，更可靠",
   "url": "https://github.com/19923421354/huanyuai-chat/releases",
   "forceUpdate": false
 }

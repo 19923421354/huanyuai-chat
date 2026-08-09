@@ -1,7 +1,15 @@
 {
   "version": "4.9.0",
   "versionCode": 75,
-  "updateMsg": "v4.9.0 全新图标！零黑色，纯色彩\n1. 全新设计应用图标，零黑色部分\n2. 修复安装兼容性问题 - 保留原始APK结构\n3. 继续优化UI界面\n4. 所有代码完全开源",
+  "updateMsg": "v4.9.0 全新图标！零黑色，纯色彩\n1. 修复版本号显示问题\n2. 修复更新日志\n3. UI优化",
   "url": "https://github.com/19923421354/huanyuai-chat/releases",
-  "forceUpdate": false
+  "forceUpdate": false,
+  "downloadUrl": "https://github.com/19923421354/huanyuai-chat/releases/download/v4.9.0/huanyuai-chat-v4.9.0.apk",
+  "size": "约 4.4 MB",
+  "features": [
+    "v4.9.0 全新图标！零黑色，纯色彩",
+    "v4.9.0 彻底修复版本号显示",
+    "v4.9.0 修复更新日志",
+    "v4.9.0 UI优化"
+  ]
 }

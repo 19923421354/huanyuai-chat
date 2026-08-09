@@ -1,7 +1,7 @@
 {
-  "version": "4.8.3",
-  "versionCode": 73,
-  "updateMsg": "v4.8.3 彻底修复版本号显示问题：\\n1. 删除旧版v4.0.8 Release，修复GitHub API返回错误版本的问题\\n2. 修复AndroidManifest.xml中versionCode(52→73)和versionName(4.0.0→4.8.3)\\n3. 检查更新现在能正确检测到最新版本\\n4. 修复安装兼容性问题",
+  "version": "4.8.4",
+  "versionCode": 74,
+  "updateMsg": "v4.8.4 彻底修复版本号显示问题！\n1. 基于 v4.8.3 构建，确保 AndroidManifest.xml 正确\n2. 修复 versionCode(74) 和 versionName(4.8.4)\n3. 已删除旧版 v4.0.8 Release，GitHub API 现在正确返回最新版本\n4. 修复所有版本文件指向正确路径",
   "url": "https://github.com/19923421354/huanyuai-chat/releases",
   "forceUpdate": false
 }

@@ -1,7 +1,10 @@
 {
   "version": "4.8.2",
   "versionCode": 72,
-  "updateMsg": "v4.8.2 修复旧版本检测不到新版本 + 安装兼容性：\n1. 修复旧版本(v4.0.x)检查更新时检测不到新版本的问题\n2. 修复安装兼容性问题\n3. 优化检查更新逻辑，更可靠",
+  "updateMsg": "v4.8.2 修复版本号显示 + 安装兼容性：
+1. 修复 AndroidManifest.xml 中 versionName 显示问题（现已正确显示为 4.8.2）
+2. 修复安装兼容性问题
+3. 优化检查更新逻辑，更可靠",
   "url": "https://github.com/19923421354/huanyuai-chat/releases",
   "forceUpdate": false
 }

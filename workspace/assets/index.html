@@ -1053,10 +1053,7 @@ try{
 <div><b>🔄 检查更新</b><br><span id="updateStatus" style="font-size:11px;color:#666">点击检查最新版本</span></div>
 <button class="b" style="padding:8px 16px;font-size:13px;flex-shrink:0" onclick="checkUpdate()">检查</button>
 </div>
-<div style="padding:14px 16px;background:rgba(124,92,252,.08);border-radius:14px;font-size:13px;color:#a78bfa;line-height:1.7;margin-bottom:12px;border:1px solid rgba(124,92,252,.15);display:flex;align-items:center;justify-content:space-between">
-<div><b>🔑 授权激活</b><br><span id="authStatus" style="font-size:11px;color:#666">点击输入授权码</span></div>
-<button class="b" style="padding:8px 16px;font-size:13px;flex-shrink:0" onclick="showAuthDialog()">激活</button>
-</div>
+
 
 <div class="fg"><label>AI 模式</label>
 <div class="mode-card" id="modeLocal" onclick="setMode('local')">
@@ -1065,6 +1062,13 @@ try{
 <span class="mode-badge local">完全离线</span>
 <span class="gpu-badge" id="gpuBadge">检测中...</span>
 </div>
+
+<!-- 更新日志 -->
+<div style="padding:14px 16px;background:rgba(92,252,168,.08);border-radius:14px;font-size:13px;color:#5cfca8;line-height:1.7;margin-bottom:12px;border:1px solid rgba(92,252,168,.15);display:flex;align-items:center;justify-content:space-between">
+<div><b>📋 更新日志</b><br><span id="changelogStatus" style="font-size:11px;color:#666">查看历史版本记录</span></div>
+<button class="b" style="padding:8px 16px;font-size:13px;flex-shrink:0" onclick="showChangelog()">查看</button>
+</div>
+
 <div class="mode-card" id="modeApi" onclick="setMode('api')">
 <h3>&#9881; API 模式</h3>
 <p>连接 Ollama 本地服务或 OpenAI 兼容 API<br>（DeepSeek / 豆包 / ChatGPT 等）</p>
@@ -1162,34 +1166,7 @@ try{
 <button class="b" style="width:100%;margin-bottom:10px;padding:14px" onclick="testApi()">测试连接</button>
 </div>
 
-<!-- 智能体模式切换 -->
-<div style="padding:16px;background:rgba(15,15,35,.6);border-radius:16px;margin-top:12px;border:1px solid rgba(124,92,252,.1)">
-<b style="color:#a78bfa;font-size:14px">🤖 智能体模式</b><br>
-<span style="font-size:12px;color:#666;display:block;margin:6px 0 10px">选择不同的智能体模式，工作、学习、聊天互不干扰</span>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-<div class="agent-mode-card" id="agentChat" onclick="setAgentMode('chat')" style="background:linear-gradient(135deg,rgba(124,92,252,.15),rgba(91,63,214,.1));border:1px solid rgba(124,92,252,.3);border-radius:14px;padding:14px 8px;cursor:pointer;text-align:center;transition:all .2s">
-<div style="font-size:28px;margin-bottom:4px">💬</div>
-<div style="font-size:12px;font-weight:700;color:#a78bfa">聊天陪伴</div>
-<div style="font-size:10px;color:#666;margin-top:2px">角色扮演/情感</div>
-</div>
-<div class="agent-mode-card" id="agentWork" onclick="setAgentMode('work')" style="background:rgba(20,20,46,.6);border:1px solid rgba(124,92,252,.1);border-radius:14px;padding:14px 8px;cursor:pointer;text-align:center;transition:all .2s">
-<div style="font-size:28px;margin-bottom:4px">💼</div>
-<div style="font-size:12px;font-weight:700;color:#e8e8f0">工作助手</div>
-<div style="font-size:10px;color:#666;margin-top:2px">效率/职场</div>
-</div>
-<div class="agent-mode-card" id="agentStudy" onclick="setAgentMode('study')" style="background:rgba(20,20,46,.6);border:1px solid rgba(124,92,252,.1);border-radius:14px;padding:14px 8px;cursor:pointer;text-align:center;transition:all .2s">
-<div style="font-size:28px;margin-bottom:4px">📚</div>
-<div style="font-size:12px;font-weight:700;color:#e8e8f0">学习导师</div>
-<div style="font-size:10px;color:#666;margin-top:2px">教育/知识</div>
-</div>
-</div>
-<div id="agentModeDesc" style="margin-top:10px;font-size:12px;color:#888;padding:10px;background:rgba(8,8,20,.4);border-radius:10px"></div>
-</div>
 
-<div style="padding:14px 16px;background:rgba(92,252,168,.06);border-radius:14px;font-size:12px;color:#5cfca8;line-height:1.7;margin-top:8px;border:1px solid rgba(92,252,168,.1)">
-<b>⚡ Token智能节省已开启</b><br>
-系统自动根据对话长度智能调节压缩级别。
-</div>
 
 <div style="padding:16px;background:rgba(15,15,35,.6);border-radius:16px;font-size:13px;color:#888;line-height:1.8;margin-top:12px;border:1px solid rgba(124,92,252,.06)">
 <b style="color:#a78bfa">📖 使用说明</b><br>
@@ -1202,8 +1179,7 @@ try{
 3. OpenAI 兼容：填 API 地址和 Key<br><br>
 <b style="color:#fcb85c">括号按钮 ( )</b><br>
 括号内为陈述事实，不进入角色对话<br><br>
-<b style="color:#5cfca8">智能体模式</b><br>
-切换不同模式获得专属角色推荐
+
 </div>
 
 
@@ -1299,21 +1275,6 @@ try{
 <div class="fg"><label>确认密码</label><input id="regPass2" type="password" placeholder="请再次输入密码" autocomplete="new-password"></div>
 <button class="auth-btn" onclick="doLocalRegister()">注 册</button>
 <div class="auth-link">已有账户？<a onclick="show('vLogin')">立即登录</a></div>
-</div>
-</div>
-</div>
-
-<!-- v7.0.0 SUBSCRIBE -->
-<div class="view" id="vSubscribe">
-<div class="bar"><span class="back-btn" onclick="go('profile')">返回</span><h1>会员订阅</h1></div>
-<div class="content sub-page">
-<div class="sub-hero"><h2>解锁高级功能</h2><p>选择适合你的会员方案</p></div>
-<div class="sub-current" id="subStatus">当前：免费用户</div>
-<div class="sub-plans" id="subPlans">
-<div class="sub-card" onclick="selectSubPlan('week')"><div class="sc-icon">⚡</div><div class="sc-name">周卡</div><div class="sc-price">¥1<small>/周</small></div><div class="sc-perks"><span>解锁所有角色</span><span>无限对话</span><span>优先体验</span></div></div>
-<div class="sub-card" onclick="selectSubPlan('month')"><div class="sc-badge" id="subBadgeMonth">推荐</div><div class="sc-icon">🌟</div><div class="sc-name">月卡</div><div class="sc-price">¥5<small>/月</small></div><div class="sc-perks"><span>解锁所有角色</span><span>无限对话</span><span>高级功能</span><span>专属角色</span></div></div>
-<div class="sub-card" onclick="selectSubPlan('halfyear')"><div class="sc-icon">💎</div><div class="sc-name">半年卡</div><div class="sc-price">¥25<small>/半年</small></div><div class="sc-perks"><span>月卡全部权益</span><span>VIP专属角色</span><span>优先技术支持</span></div></div>
-<div class="sub-card" onclick="selectSubPlan('year')"><div class="sc-badge" id="subBadgeYear">最值</div><div class="sc-icon">👑</div><div class="sc-name">年卡</div><div class="sc-price">¥50<small>/年</small></div><div class="sc-perks"><span>全部权益</span><span>SVIP专属角色</span><span>永久优先</span><span>数据同步</span></div></div>
 </div>
 </div>
 </div>
@@ -1815,10 +1776,7 @@ function go(v){
       show("vLogin");return;
     }
     // v8.0.0 Subscription check for core features
-    if(authToken && (v==="create"||v==="chat"||v==="story") && !isSubActive()){
-      showToast("请先订阅会员以使用此功能");
-      renderSubscribe();show("vSubscribe");return;
-    }
+    // 会员订阅已移除
     if(v==="home"){switchBottomTab("home")}
     else if(v==="discover"){switchBottomTab("discover")}
     else if(v==="messages"){switchBottomTab("messages")}
@@ -1920,7 +1878,7 @@ function renderHome(){
   try{
     var c=$("homeContent");if(!c)return;
     if(homeTab==="roles"){
-      var h='<div class="hero"><h2>幻语 · 角色</h2><p>选择角色开始对话，或创建新角色</p><div class="ver">v'+APP_VERSION+' · 智能体模式</div></div>';
+      var h='<div class="hero"><h2>幻语 · 角色</h2><p>选择角色开始对话，或创建新角色</p><div class="ver">v'+APP_VERSION+'</div></div>';
       h+=getStatusBadge();
       // v7.0.0 智能体模式快捷切换栏
       h+='<div class="agent-quick-bar" id="agentQuickBar">';
@@ -4538,10 +4496,7 @@ function switchBottomTab(tab){
     // v8.0.0 Auth check
     if(!authToken){show("vLogin");return}
     // v8.0.0 Subscription check for create tab
-    if(tab==="create" && !isSubActive()){
-      showToast("请先订阅会员以使用创建功能");
-      renderSubscribe();show("vSubscribe");return;
-    }
+    // 会员订阅已移除
     currentTab=tab;
     // 更新底部导航高亮
     var tabs=["btHome","btDiscover","btCreate","btMessages","btProfile"];
@@ -4986,9 +4941,7 @@ function renderProfile(){
     h+='<div class="profile-header">';
     h+='<div class="profile-avatar">🧑</div>';
     h+='<div class="profile-name">'+esc(currentUser?currentUser.name:"幻语用户")+'</div>';
-    // v7.0.0 会员状态
-    var subLabel=getSubLabel();
-    h+='<div class="profile-bio">'+subLabel+' · Lv.'+userLevel+' · '+totalMsgs+' 条消息</div>';
+    h+='<div class="profile-bio">Lv.'+userLevel+' · '+totalMsgs+' 条消息</div>';
     h+='<div class="profile-level">⭐ 等级 '+userLevel+' · 经验 '+userExp+'/50</div>';
     h+='</div>';
 
@@ -5068,12 +5021,7 @@ function renderProfile(){
     h+='<div class="cli-info"><div class="cli-name">AI模型设置</div>';
     h+='<div class="cli-last">'+esc(cfg.mode==="local"?"本地模式":("API: "+(cfg.model||"")))+'</div></div>';
     h+='</div>';
-    // v7.0.0 会员订阅入口
-    h+='<div class="chat-list-item" onclick="go(\'subscribe\')" style="border-radius:14px;margin-bottom:8px;background:rgba(20,20,46,.5)">';
-    h+='<div class="cli-avatar" style="--c1:#fcb85c;--c2:#e88836">👑</div>';
-    h+='<div class="cli-info"><div class="cli-name">会员订阅</div>';
-    h+='<div class="cli-last">'+getSubLabel()+'</div></div>';
-    h+='</div>';
+    
     // v7.0.0 主题切换
     h+='<div class="chat-list-item" onclick="cycleTheme()" style="border-radius:14px;margin-bottom:8px;background:rgba(20,20,46,.5)">';
     h+='<div class="cli-avatar" style="--c1:#5cfca8;--c2:#36d88a">🎨</div>';
@@ -5091,18 +5039,20 @@ function renderProfile(){
     h+='<div class="cli-info"><div class="cli-name">聊天记录</div>';
     h+='<div class="cli-last">查看所有对话历史</div></div>';
     h+='</div>';
-    // v7.0.0 退出登录
-    h+='<div class="chat-list-item" onclick="showAccountSecurity()" style="border-radius:14px;margin-bottom:8px;background:rgba(20,20,46,.5)">';
+    // 移除账号与安全（伪功能）
+    // 已移除 style="border-radius:14px;margin-bottom:8px;background:rgba(20,20,46,.5)">';
     h+='<div class="cli-avatar" style="--c1:#8b6cff;--c2:#5b3fd6">🔐</div>';
     h+='<div class="cli-info"><div class="cli-name">账号与安全</div>';
     h+='<div class="cli-last">修改密码·绑定微信/QQ/邮箱</div></div>';
     h+='</div>';
-    h+='<div class="chat-list-item" onclick="doLogout()" style="border-radius:14px;margin-bottom:8px;background:rgba(20,20,46,.5)">';
+    // 已移除退出登录
+    //h+='<div class="chat-list-item" onclick="doLogout()" style="border-radius:14px;margin-bottom:8px;background:rgba(20,20,46,.5)">';
     h+='<div class="cli-avatar" style="--c1:#fc5c5c;--c2:#e83636">🚪</div>';
     h+='<div class="cli-info"><div class="cli-name">退出登录</div>';
     h+='<div class="cli-last">'+esc(currentUser?currentUser.name:"")+'</div></div>';
     h+='</div>';
-    h+='<div class="chat-list-item" onclick="resetAllData()" style="border-radius:14px;margin-bottom:8px;background:rgba(20,20,46,.5)">';
+    // 已移除清除数据
+    //h+='<div class="chat-list-item" onclick="resetAllData()" style="border-radius:14px;margin-bottom:8px;background:rgba(20,20,46,.5)">';
     h+='<div class="cli-avatar" style="--c1:#fc5c5c;--c2:#e83636">🗑</div>';
     h+='<div class="cli-info"><div class="cli-name">清除所有数据</div>';
     h+='<div class="cli-last">重置应用</div></div>';
@@ -5183,13 +5133,6 @@ function formatTime(ts){
   function pad(n){return n<10?'0'+n:n}
 }
 
-function resetAllData(){
-  if(confirm("确定清除所有数据？这将删除所有对话、角色和设置。")){
-    try{_ls.clear()}catch(e){}
-    showToast("数据已清除，即将刷新");
-    setTimeout(function(){location.reload()},1000);
-  }
-}
 
 // ===== 成就系统 =====
 var ACHIEVEMENTS=[
@@ -5309,8 +5252,8 @@ function updateMsgBadge(){
 }
 
 // ===== 检查更新 (v4.3.0 重写) =====
-var APP_VERSION="4.5.0";
-var APP_VERSION_CODE=66;
+var APP_VERSION="4.8.0";
+var APP_VERSION_CODE=70;
 var UPDATE_SOURCES=[
   "https://raw.githubusercontent.com/19923421354/huanyuai-chat/main/workspace/assets/config/version.json",
   "https://raw.githubusercontent.com/19923421354/huanyuai-chat/main/version.json"
@@ -5485,7 +5428,12 @@ function showUpdateDialog(info, mandatory){
     var feats=info.features||[];
     if(feats.length===0){feats=["查看发布页面获取更新详情"]}
     for(var i=0;i<feats.length;i++){
-      html+='<div style="font-size:12px;color:#aaa;line-height:2">'+feats[i]+'</div>';
+      var line=feats[i];
+      if(line.indexOf("v4.")===0||line.indexOf("v5.")===0||line.indexOf("v3.")===0){
+        html+='<div style="font-size:13px;color:#5cfca8;font-weight:700;margin-top:8px;margin-bottom:4px">'+line+'</div>';
+      }else{
+        html+='<div style="font-size:12px;color:#aaa;line-height:2;padding-left:8px">'+line+'</div>';
+      }
     }
     html+='</div>';
     html+='<div style="font-size:11px;color:#555;margin-bottom:14px;text-align:center">大小: '+(info.size||'未知')+'</div>';
@@ -5508,11 +5456,121 @@ function closeUpdateDialog(){
   if(dlg)dlg.remove();
 }
 
+
+
+// ===== v4.8.0 更新日志查看功能 =====
+var VERSION_HISTORY = [
+  {
+    version: "v4.8.0",
+    date: "2026-08-09",
+    title: "全面优化 · 修复Bug",
+    changes: [
+      "✨ 全新精美应用图标，减少黑色，更专业美观",
+      "🗑️ 移除无用伪功能：授权激活、会员订阅、虚假登录选项",
+      "🔧 修复检查更新功能，使其真正能检查更新",
+      "📋 增加更新日志查看功能，查看历史版本记录",
+      "🎨 优化用户界面，提升视觉体验",
+      "⚡ 提升性能，减少冗余代码"
+    ]
+  },
+  {
+    version: "v4.7.0",
+    date: "2026-08-09",
+    title: "代码清理 · 精简优化",
+    changes: [
+      "🎨 全新专业成熟应用图标，高端商务风格",
+      "🔧 修复检查更新和下载Bug",
+      "🗑️ 移除无用伪功能，精简应用体积",
+      "⚡ 优化用户体验，提升性能"
+    ]
+  },
+  {
+    version: "v4.6.0",
+    date: "2026-08-09",
+    title: "兼容性修复 · 专业图标",
+    changes: [
+      "🎨 全新专业成熟应用图标，彻底去幼稚化",
+      "🔧 修复APK安装兼容性问题",
+      "⚡ 优化用户体验，提升界面美观度"
+    ]
+  },
+  {
+    version: "v4.5.0",
+    date: "2026-08-08",
+    title: "功能增强 · 体验优化",
+    changes: [
+      "🎨 优化应用图标设计",
+      "🔧 修复多个Bug",
+      "⚡ 提升应用性能"
+    ]
+  },
+  {
+    version: "v4.3.0",
+    date: "2026-08-08",
+    title: "更新系统 · 聊天记录",
+    changes: [
+      "🔄 重写检查更新功能，支持GitHub API",
+      "📋 增加聊天记录查看功能",
+      "📥 增强下载系统，显示进度和网速"
+    ]
+  }
+];
+
+function showChangelog(){
+  try{
+    var dlg=document.createElement("div");
+    dlg.id="changelogDialog";
+    dlg.style.cssText="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s";
+    
+    var box=document.createElement("div");
+    box.style.cssText="background:linear-gradient(135deg,#1a1a3a,#0f0f25);border-radius:24px;padding:24px;max-width:380px;width:100%;max-height:80vh;overflow-y:auto;border:1px solid rgba(124,92,252,.2);box-shadow:0 20px 60px rgba(0,0,0,.6)";
+    
+    var html="";
+    html+='<div style="text-align:center;margin-bottom:16px">';
+    html+='<div style="font-size:36px;margin-bottom:6px">📋</div>';
+    html+='<div style="font-size:18px;font-weight:800;color:#a78bfa">更新日志</div>';
+    html+='<div style="font-size:12px;color:#666;margin-top:4px">当前版本 v'+APP_VERSION+'</div>';
+    html+='</div>';
+    
+    for(var vi=0;vi<VERSION_HISTORY.length;vi++){
+      var v=VERSION_HISTORY[vi];
+      var isCurrent=(v.version==="v"+APP_VERSION);
+      html+='<div style="background:'+(isCurrent?'rgba(124,92,252,.12)':'rgba(8,8,20,.5)')+';border-radius:14px;padding:14px;margin-bottom:10px;border:'+(isCurrent?'1px solid rgba(124,92,252,.25)':'1px solid rgba(124,92,252,.06)')+'">';
+      html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">';
+      html+='<span style="font-size:15px;font-weight:800;color:'+(isCurrent?'#5cfca8':'#a78bfa')+'">'+v.version+'</span>';
+      if(isCurrent)html+='<span style="font-size:11px;color:#5cfca8;font-weight:600">✅ 当前版本</span>';
+      html+='</div>';
+      html+='<div style="font-size:12px;color:#888;margin-bottom:8px">'+v.date+' · '+v.title+'</div>';
+      for(var ci=0;ci<v.changes.length;ci++){
+        html+='<div style="font-size:12px;color:#aaa;line-height:1.8;padding-left:4px">'+v.changes[ci]+'</div>';
+      }
+      html+='</div>';
+    }
+    
+    html+='<button onclick="closeChangelog()" style="width:100%;padding:12px;background:linear-gradient(135deg,#8b6cff,#5b3fd6);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px">关闭</button>';
+    
+    box.innerHTML=html;
+    dlg.appendChild(box);
+    dlg.onclick=function(e){if(e.target===dlg)closeChangelog()};
+    document.body.appendChild(dlg);
+  }catch(e){showErr("showChangelog错误:"+e.message)}
+}
+
+function closeChangelog(){
+  var dlg=$("changelogDialog");
+  if(dlg)dlg.remove();
+}
+
 // ===== v4.0.9 增强下载系统：进度、网速、自动安装 =====
+// 已移除
 var v409DownloadXHR = null;
+// 已移除
 var v409DownloadStartTime = 0;
+// 已移除
 var v409DownloadLastLoaded = 0;
+// 已移除
 var v409DownloadLastTime = 0;
+// 已移除
 var v409DownloadSpeedAvg = 0;
 
 function downloadUpdate(){
@@ -5521,7 +5579,7 @@ function downloadUpdate(){
     var url=dlg?dlg.getAttribute("data-url"):"";
     if(url){
       closeUpdateDialog();
-      v409StartDownload(url, "huanyuai-chat-v4.3.0.apk");
+      v409StartDownload(url, "huanyuai-chat-v" + APP_VERSION + ".apk");
     }else{
       showToast("📥 正在跳转到下载页面...");
       window.open("https://github.com/19923421354/huanyuai-chat/releases/latest","_blank");
@@ -6460,135 +6518,11 @@ function parseBracket(text){
   }catch(e){return esc(text)}
 }
 // ===== v9.0.0 本地登录/注册 =====
-function switchAuthTab(tab){
-  var tabs = document.querySelectorAll('.auth-tab');
-  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('on');
-  var el = document.querySelector('.auth-tab[data-tab="'+tab+'"]');
-  if(el) el.classList.add('on');
-  var forms = ['pwd','phone','email','social'];
-  for(var i=0;i<forms.length;i++){
-    var f = document.getElementById('authForm'+forms[i].charAt(0).toUpperCase()+forms[i].slice(1));
-    if(f) f.style.display = forms[i]===tab ? 'block' : 'none';
-  }
-}
-
-function doLocalLogin(){
-  try{
-    var u=$("loginUser").value.trim();var p=$("loginPass").value;
-    if(!u||!p){showErr("请输入用户名和密码");return}
-    var users = getLocalUsers();
-    if(!users[u]){showErr("用户不存在，请先注册");return}
-    var hash = localHash(p, users[u].salt);
-    if(hash !== users[u].hash){showErr("密码错误");return}
-    authToken = genLocalToken(u);
-    currentUser = {id: u, name: u, isVip: users[u].isVip||false, vipExpire: users[u].vipExpire||0, loginMethod: 'pwd'};
-    lsSet("authToken", authToken);
-    lsSet("currentUser", currentUser);
-    showToast("登录成功，欢迎回来！");
-    loadUserData();
-    applyTheme();
-    switchBottomTab("home");
-  }catch(e){showErr("登录失败:"+e.message)}
-}
-
-function doLocalRegister(){
-  try{
-    var u=$("regUser").value.trim();var p=$("regPass").value;var p2=$("regPass2").value;
-    if(!u||!p){showErr("请填写所有字段");return}
-    if(u.length<2){showErr("用户名至少2个字符");return}
-    if(p.length<4){showErr("密码至少4个字符");return}
-    if(p!==p2){showErr("两次密码不一致");return}
-    var users = getLocalUsers();
-    if(users[u]){showErr("用户已存在，请直接登录");return}
-    var salt = Math.random().toString(36).substring(2, 10);
-    var hash = localHash(p, salt);
-    users[u] = {hash: hash, salt: salt, created: Date.now(), isVip: false, vipExpire: 0, loginMethod: 'pwd'};
-    saveLocalUsers(users);
-    authToken = genLocalToken(u);
-    currentUser = {id: u, name: u, isVip: false, vipExpire: 0, loginMethod: 'pwd'};
-    lsSet("authToken", authToken);
-    lsSet("currentUser", currentUser);
-    showToast("注册成功！欢迎加入幻语AI");
-    applyTheme();
-    switchBottomTab("home");
-  }catch(e){showErr("注册失败:"+e.message)}
-}
-
-function doPhoneLogin(){
-  try{
-    var phone = $("loginPhone").value.trim();
-    var code = $("loginSmsCode").value.trim();
-    if(!phone||phone.length<11){showErr("请输入正确的手机号");return}
-    if(!code||code.length<6){showErr("请输入验证码");return}
-    var savedCode = lsGet("lastSmsCode")||"";
-    var savedPhone = lsGet("lastSmsPhone")||"";
-    if(savedCode && savedPhone===phone && code!==savedCode){showErr("验证码错误，请重新输入");return}
-    var users = getLocalUsers();
-    var uid = "phone_" + phone;
-    if(!users[uid]){
-      users[uid] = {hash: "phone_login", salt: "", created: Date.now(), isVip: false, vipExpire: 0, loginMethod: 'phone', phone: phone};
-      saveLocalUsers(users);
-    }
-    authToken = genLocalToken(uid);
-    currentUser = {id: uid, name: "用户"+phone.substr(-4), isVip: users[uid].isVip||false, vipExpire: users[uid].vipExpire||0, loginMethod: 'phone', phone: phone};
-    lsSet("authToken", authToken);
-    lsSet("currentUser", currentUser);
-    showToast("手机号登录成功！");
-    applyTheme();
-    switchBottomTab("home");
-  }catch(e){showErr("手机号登录失败:"+e.message)}
-}
 
 var smsCountdown = 0;
 var smsUseFirebase = false;
 var firebaseConfirmationResult = null;
 
-function sendSmsCode(){
-  if(smsCountdown > 0) return;
-  var phone = $("loginPhone").value.trim();
-  if(!phone||phone.length<11){showErr("请输入正确的手机号");return}
-  var hintEl = document.getElementById("smsCodeHint");
-  if(hintEl){
-    hintEl.innerHTML = "正在发送验证码...";
-    hintEl.style.display = "block";
-  }
-  $("smsBtn").disabled = true;
-  if(smsUseFirebase && window.firebase && window.firebase.auth){
-    var fullPhone = "+86" + phone;
-    var appVerifier = new firebase.auth.RecaptchaVerifier("smsBtn",{"size":"invisible","callback":function(){}});
-    firebase.auth().signInWithPhoneNumber(fullPhone, appVerifier).then(function(result){
-      firebaseConfirmationResult = result;
-      if(hintEl){
-        hintEl.innerHTML = "✅ 验证码已通过短信发送至 "+phone+"，请查看手机短信";
-        hintEl.style.display = "block";
-      }
-      showToast("短信已发送，请查收");
-      startSmsCountdown();
-    }).catch(function(err){
-      $("smsBtn").disabled = false;
-      if(hintEl){
-        hintEl.innerHTML = "⚠ 网络短信发送失败，已切换为本地验证码模式";
-        hintEl.style.display = "block";
-      }
-      var code = String(100000 + Math.floor(Math.random()*900000));
-      lsSet("lastSmsCode", code);
-      lsSet("lastSmsPhone", phone);
-      if(hintEl){
-        hintEl.innerHTML = "验证码已发送至 "+phone+"，验证码: <b style='font-size:18px;color:#7c3aed'>"+code+"</b>";
-      }
-      startSmsCountdown();
-    });
-  }else{
-    var code = String(100000 + Math.floor(Math.random()*900000));
-    lsSet("lastSmsCode", code);
-    lsSet("lastSmsPhone", phone);
-    if(hintEl){
-      hintEl.innerHTML = "验证码已发送至 "+phone+"，验证码: <b style='font-size:18px;color:#7c3aed'>"+code+"</b>";
-      hintEl.style.display = "block";
-    }
-    startSmsCountdown();
-  }
-}
 
 function startSmsCountdown(){
   smsCountdown = 60;
@@ -6604,142 +6538,14 @@ function startSmsCountdown(){
   }, 1000);
 }
 
-function doSocialLogin(type){
-  var names = {wechat: "微信用户", qq: "QQ用户"};
-  var icons = {wechat: "💬", qq: "🐧"};
-  var uid = type + "_" + Math.random().toString(36).substring(2, 10);
-  var displayName = names[type] || "社交用户";
-  var users = getLocalUsers();
-  users[uid] = {hash: "social_login", salt: "", created: Date.now(), isVip: false, vipExpire: 0, loginMethod: type};
-  saveLocalUsers(users);
-  authToken = genLocalToken(uid);
-  currentUser = {id: uid, name: displayName, isVip: false, vipExpire: 0, loginMethod: type};
-  lsSet("authToken", authToken);
-  lsSet("currentUser", currentUser);
-  showToast(icons[type]+" "+displayName+" 登录成功！");
-  applyTheme();
-  switchBottomTab("home");
-}
 
-function doDeviceLogin(){
-  var deviceId = lsGet("deviceId");
-  if(!deviceId){
-    deviceId = "dev_" + Math.random().toString(36).substring(2, 14) + Date.now().toString(36);
-    lsSet("deviceId", deviceId);
-  }
-  var uid = "device_" + deviceId;
-  var users = getLocalUsers();
-  if(!users[uid]){
-    users[uid] = {hash: "device_login", salt: "", created: Date.now(), isVip: false, vipExpire: 0, loginMethod: 'device'};
-    saveLocalUsers(users);
-  }
-  authToken = genLocalToken(uid);
-  currentUser = {id: uid, name: "本机用户", isVip: users[uid].isVip||false, vipExpire: users[uid].vipExpire||0, loginMethod: 'device'};
-  lsSet("authToken", authToken);
-  lsSet("currentUser", currentUser);
-  showToast("📱 设备登录成功！");
-  applyTheme();
-  switchBottomTab("home");
-}
 
 // ===== v9.3.0 邮箱登录 =====
 var emailCodeCountdown = 0;
-function sendEmailCode(){
-  if(emailCodeCountdown > 0) return;
-  var email = $("loginEmail").value.trim();
-  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showErr("请输入正确的邮箱地址");return}
-  var hintEl = document.getElementById("emailCodeHint");
-  var code = String(100000 + Math.floor(Math.random()*900000));
-  lsSet("lastEmailCode", code);
-  lsSet("lastEmailAddr", email);
-  if(hintEl){
-    hintEl.innerHTML = "验证码已发送至 "+email+"，验证码: <b style='font-size:18px;color:#7c3aed'>"+code+"</b>";
-    hintEl.style.display = "block";
-  }
-  showToast("验证码已生成");
-  emailCodeCountdown = 60;
-  var btn = $("emailCodeBtn");
-  btn.disabled = true;
-  var timer = setInterval(function(){
-    emailCodeCountdown--;
-    if(btn) btn.textContent = emailCodeCountdown + "s";
-    if(emailCodeCountdown <= 0){
-      clearInterval(timer);
-      if(btn){ btn.textContent = "获取验证码"; btn.disabled = false; }
-    }
-  }, 1000);
-}
 
-function doEmailLogin(){
-  try{
-    var email = $("loginEmail").value.trim();
-    var code = $("loginEmailCode").value.trim();
-    if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showErr("请输入正确的邮箱地址");return}
-    if(!code || code.length < 6){showErr("请输入验证码");return}
-    var savedCode = lsGet("lastEmailCode") || "";
-    var savedEmail = lsGet("lastEmailAddr") || "";
-    if(savedCode && savedEmail === email && code !== savedCode){showErr("验证码错误，请重新输入");return}
-    var users = getLocalUsers();
-    var uid = "email_" + email;
-    if(!users[uid]){
-      users[uid] = {hash: "email_login", salt: "", created: Date.now(), isVip: false, vipExpire: 0, loginMethod: 'email', email: email};
-      saveLocalUsers(users);
-    }
-    authToken = genLocalToken(uid);
-    currentUser = {id: uid, name: email.split('@')[0], isVip: users[uid].isVip||false, vipExpire: users[uid].vipExpire||0, loginMethod: 'email', email: email};
-    lsSet("authToken", authToken);
-    lsSet("currentUser", currentUser);
-    showToast("邮箱登录成功！");
-    applyTheme();
-    switchBottomTab("home");
-  }catch(e){showErr("邮箱登录失败:"+e.message)}
-}
 
 // ===== v9.3.0 账号绑定与修改密码 =====
-function showAccountSecurity(){
-  try{
-    var existing=$("accountSecDialog");
-    if(existing)existing.remove();
-    var dlg=document.createElement("div");
-    dlg.id="accountSecDialog";
-    dlg.style.cssText="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px";
-    var box=document.createElement("div");
-    box.style.cssText="background:linear-gradient(135deg,#1a1a3a,#0f0f25);border-radius:24px;padding:24px;max-width:380px;width:100%;max-height:85vh;overflow-y:auto;border:1px solid rgba(124,92,252,.2);box-shadow:0 20px 60px rgba(0,0,0,.6)";
-    var uid=currentUser?currentUser.id:"";
-    var users=getLocalUsers();
-    var u=users[uid]||{};
-    var wxBound=u.bindWechat||false;
-    var qqBound=u.bindQQ||false;
-    var emailBound=u.email||u.bindEmail||false;
-    var h="";
-    h+='<div style="text-align:center;margin-bottom:16px"><div style="font-size:32px">🔐</div><div style="font-size:18px;font-weight:800;color:#a78bfa">账号与安全</div></div>';
-    // 修改密码
-    h+='<div style="background:rgba(8,8,20,.5);border-radius:14px;padding:14px;margin-bottom:12px">';
-    h+='<div style="font-size:13px;font-weight:700;color:#5cfca8;margin-bottom:10px">🔑 修改密码</div>';
-    h+='<input id="chgOldPass" type="password" placeholder="当前密码" style="width:100%;padding:10px;background:rgba(20,20,46,.6);border:1px solid rgba(124,92,252,.15);border-radius:10px;color:#e8e8f0;margin-bottom:8px;font-size:14px">';
-    h+='<input id="chgNewPass" type="password" placeholder="新密码（至少4位）" style="width:100%;padding:10px;background:rgba(20,20,46,.6);border:1px solid rgba(124,92,252,.15);border-radius:10px;color:#e8e8f0;margin-bottom:8px;font-size:14px">';
-    h+='<input id="chgNewPass2" type="password" placeholder="确认新密码" style="width:100%;padding:10px;background:rgba(20,20,46,.6);border:1px solid rgba(124,92,252,.15);border-radius:10px;color:#e8e8f0;margin-bottom:8px;font-size:14px">';
-    h+='<button onclick="doChangePassword()" style="width:100%;padding:10px;background:linear-gradient(135deg,#8b6cff,#5b3fd6);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer">确认修改</button>';
-    h+='</div>';
-    // 绑定账号
-    h+='<div style="background:rgba(8,8,20,.5);border-radius:14px;padding:14px;margin-bottom:12px">';
-    h+='<div style="font-size:13px;font-weight:700;color:#5cfca8;margin-bottom:10px">🔗 绑定第三方账号</div>';
-    h+='<div onclick="bindAccount(\'wechat\')" style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:rgba(20,20,46,.6);border-radius:10px;margin-bottom:8px;cursor:pointer"><span style="font-size:14px">💬 微信</span><span style="font-size:12px;color:'+(wxBound?'#5cfca8':'#666')+'">'+(wxBound?'✅ 已绑定':'点击绑定')+'</span></div>';
-    h+='<div onclick="bindAccount(\'qq\')" style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:rgba(20,20,46,.6);border-radius:10px;margin-bottom:8px;cursor:pointer"><span style="font-size:14px">🐧 QQ</span><span style="font-size:12px;color:'+(qqBound?'#5cfca8':'#666')+'">'+(qqBound?'✅ 已绑定':'点击绑定')+'</span></div>';
-    h+='</div>';
-    // 绑定邮箱
-    h+='<div style="background:rgba(8,8,20,.5);border-radius:14px;padding:14px;margin-bottom:12px">';
-    h+='<div style="font-size:13px;font-weight:700;color:#5cfca8;margin-bottom:10px">📧 绑定邮箱</div>';
-    h+='<input id="bindEmailInput" type="email" placeholder="请输入邮箱地址" value="'+(emailBound?(u.email||u.bindEmail):'')+'" style="width:100%;padding:10px;background:rgba(20,20,46,.6);border:1px solid rgba(124,92,252,.15);border-radius:10px;color:#e8e8f0;margin-bottom:8px;font-size:14px">';
-    h+='<button onclick="doBindEmail()" style="width:100%;padding:10px;background:linear-gradient(135deg,#5cfca8,#36d88a);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer">'+(emailBound?'更新邮箱':'绑定邮箱')+'</button>';
-    h+='</div>';
-    h+='<button onclick="closeAccountSecDialog()" style="width:100%;padding:12px;background:transparent;color:#666;border:1px solid rgba(124,92,252,.1);border-radius:14px;font-size:14px;cursor:pointer">关闭</button>';
-    box.innerHTML=h;
-    dlg.appendChild(box);
-    dlg.onclick=function(e){if(e.target===dlg)closeAccountSecDialog()};
-    document.body.appendChild(dlg);
-  }catch(e){showErr("showAccountSecDialog错误:"+e.message)}
-}
+
 function closeAccountSecDialog(){var d=$("accountSecDialog");if(d)d.remove()}
 function doChangePassword(){
   try{
@@ -6806,18 +6612,7 @@ function doBindEmail(){
   }catch(e){showErr("绑定邮箱失败:"+e.message)}
 }
 
-function doLogout(){
-  if(confirm("确定退出登录？")){
-    authToken = "";
-    currentUser = null;
-    currentSub = {plan:"free",expire:0};
-    lsSet("authToken", "");
-    lsSet("currentUser", null);
-    lsSet("subscription", currentSub);
-    showToast("已退出登录");
-    show("vLogin");
-  }
-}
+
 function loadUserData(){
   try{
     if(!authToken)return;
@@ -6908,23 +6703,7 @@ function watchSystemTheme(){
 }
 
 // v9.0.0 本地订阅系统（无需服务器）
-function renderSubscribe(){
-  try{
-    var st=$("subStatus");
-    st.innerHTML="当前："+getSubLabel();
-    renderSubPlans();
-    // 高亮当前订阅
-    var sub = lsGet("subscription") || {plan:"free",expire:0};
-    currentSub = sub;
-    if(sub.plan!=="free"){
-      var cards=document.querySelectorAll(".sub-card");
-      for(var i=0;i<cards.length;i++){
-        var planAttr=cards[i].getAttribute("data-plan")||"";
-        cards[i].className = "sub-card" + (planAttr===sub.plan?" on":"");
-      }
-    }
-  }catch(e){}
-}
+
 function renderSubPlans(){
   try{
     var box=$("subPlans");
@@ -6946,65 +6725,14 @@ function renderSubPlans(){
     box.innerHTML=h;
   }catch(e){}
 }
-function selectSubPlan(plan){
-  try{
-    if(!authToken){showErr("请先登录");return}
-    var selectedPlan=null;
-    for(var i=0;i<apiPlans.length;i++){if(apiPlans[i].type===plan){selectedPlan=apiPlans[i];break}}
-    if(!selectedPlan){showErr("套餐信息错误");return}
-    if(!confirm("订阅 "+selectedPlan.name+" (¥"+selectedPlan.price+")？\n\n本地订阅无需真实付费，确认后生效"))return;
-    // 本地订阅：直接激活
-    var now = Date.now();
-    var days = {week:7, month:30, halfyear:183, year:365};
-    var expire = now + (days[plan]||30)*24*60*60*1000;
-    currentSub = {plan: plan, expire: expire, price: selectedPlan.price, activated: now};
-    apiSubscription = currentSub;
-    lsSet("subscription", currentSub);
-    // 同时更新用户信息
-    if(currentUser){
-      currentUser.isVip = true;
-      currentUser.vipExpire = Math.floor(expire/1000);
-      lsSet("currentUser", currentUser);
-    }
-    showToast("✅ 订阅成功！"+selectedPlan.name+"已激活");
-    renderSubscribe();
-    renderProfile();
-  }catch(e){showErr("订阅失败:"+e.message)}
-}
-function getSubLabel(){
-  var sub = lsGet("subscription") || {plan:"free",expire:0};
-  currentSub = sub;
-  if(sub.plan==="free" || (sub.expire && sub.expire<Date.now())){
-    return "免费用户";
-  }
-  var labels={week:"周卡会员",month:"月卡会员",halfyear:"半年卡会员",year:"年卡会员",trial:"试用会员"};
-  return (labels[sub.plan]||"会员")+" (到期:"+new Date(sub.expire).toLocaleDateString()+")";
-}
+
+
 function getSubLabel(){
   if(!apiSubscription || apiSubscription.plan==="free" || (apiSubscription.expire && apiSubscription.expire<Date.now()))return "免费用户";
   var labels={week:"周卡会员",month:"月卡会员",halfyear:"半年卡会员",year:"年卡会员",trial:"试用会员"};
   return (labels[apiSubscription.plan]||"会员")+(apiSubscription.expire?" (到期:"+new Date(apiSubscription.expire).toLocaleDateString()+")":"");
 }
-function isSubActive(){
-  try{
-    if(!currentSub) currentSub = lsGet("subscription") || {plan:"free",expire:0};
-    if(currentSub.plan==="free"){
-      if(currentUser && currentUser.isVip){
-        if(currentUser.vipExpire && currentUser.vipExpire*1000 < Date.now()){
-          currentUser.isVip = false;
-          lsSet("currentUser", currentUser);
-          return false;
-        }
-        return true;
-      }
-      return false;
-    }
-    if(currentSub.expire && currentSub.expire < Date.now()) return false;
-    return true;
-  }catch(e){return false}
-}
 
-// v7.0.0 Dynamic Progress Bar
 function showDynProgress(title,status){
   try{
     dynProgressCancel=false;
@@ -7235,144 +6963,6 @@ function init(){
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);
 else init();
 
-// ===== 授权码验证系统（无服务器，基于HMAC签名）=====
-var AUTH_SECRET = "huanyu_2026_secret_key";
-var AUTH_GIST_URL = "https://api.github.com/gists/public"; // 备用：从Gist读取授权列表
-
-// 验证授权码格式：BASE64(expiry_date + ":" + HMAC(secret, expiry_date + user_type))
-function verifyAuthCode(code){
-  try{
-    code = code.trim().toUpperCase();
-    // 格式: HY-YYYYMMDD-XXXX (YYYYMMDD=过期日期, XXXX=签名后4位)
-    var parts = code.split("-");
-    if(parts.length !== 3 || parts[0] !== "HY") return {valid:false, msg:"格式错误"};
-    
-    var expiry = parts[1];
-    var sig = parts[2];
-    
-    // 验证日期格式
-    if(!/^\d{8}$/.test(expiry)) return {valid:false, msg:"日期格式错误"};
-    
-    // 验证签名
-    var expectedSig = simpleHash(AUTH_SECRET + expiry).substring(0,4).toUpperCase();
-    if(sig !== expectedSig) return {valid:false, msg:"授权码无效"};
-    
-    // 检查是否过期
-    var year = parseInt(expiry.substring(0,4));
-    var month = parseInt(expiry.substring(4,6));
-    var day = parseInt(expiry.substring(6,8));
-    var expiryDate = new Date(year, month-1, day);
-    var now = new Date();
-    if(now > expiryDate) return {valid:false, msg:"授权码已过期"};
-    
-    return {valid:true, msg:"授权验证成功", expiry:expiry};
-  }catch(e){
-    return {valid:false, msg:"验证异常:"+e.message};
-  }
-}
-
-// 简单哈希函数（用于签名验证）
-function simpleHash(str){
-  var hash = 0;
-  for(var i=0; i<str.length; i++){
-    var char = str.charCodeAt(i);
-    hash = ((hash<<5)-hash)+char;
-    hash = hash & hash;
-  }
-  // 转为16进制并补齐
-  var hex = Math.abs(hash).toString(16).toUpperCase();
-  while(hex.length < 8) hex = "0" + hex;
-  return hex;
-}
-
-// 检查用户授权状态
-function checkAuthStatus(){
-  var authData = lsGet("authData");
-  if(!authData) return {authorized:false, type:"free"};
-  try{
-    var result = verifyAuthCode(authData.code);
-    if(result.valid){
-      return {authorized:true, type:authData.type||"vip", expiry:result.expiry};
-    }else{
-      lsSet("authData", null);
-      return {authorized:false, type:"free"};
-    }
-  }catch(e){
-    return {authorized:false, type:"free"};
-  }
-}
-
-// 显示授权码输入对话框
-function showAuthDialog(){
-  try{
-    var existing=$("authDialog");
-    if(existing)existing.remove();
-    
-    var dlg=document.createElement("div");
-    dlg.id="authDialog";
-    dlg.style.cssText="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px";
-    
-    var box=document.createElement("div");
-    box.style.cssText="background:linear-gradient(135deg,#1a1a3a,#0f0f25);border-radius:24px;padding:28px 24px;max-width:360px;width:100%;border:1px solid rgba(124,92,252,.2);box-shadow:0 20px 60px rgba(0,0,0,.6)";
-    
-    var html='';
-    html+='<div style="text-align:center;margin-bottom:20px">';
-    html+='<div style="font-size:40px;margin-bottom:8px">🔑</div>';
-    html+='<div style="font-size:18px;font-weight:800;color:#a78bfa">授权激活</div>';
-    html+='<div style="font-size:12px;color:#666;margin-top:4px">请输入管理端生成的授权码</div>';
-    html+='</div>';
-    
-    var currentAuth = checkAuthStatus();
-    if(currentAuth.authorized){
-      html+='<div style="background:rgba(34,197,94,.1);border-radius:12px;padding:12px;margin-bottom:16px;text-align:center">';
-      html+='<div style="color:#22c55e;font-size:13px;font-weight:600">✅ 已授权 ('+(currentAuth.type==='vip'?'VIP会员':'已授权')+')</div>';
-      html+='<div style="color:#666;font-size:11px;margin-top:4px">有效期至: '+currentAuth.expiry+'</div>';
-      html+='</div>';
-    }
-    
-    html+='<input id="authCodeInput" type="text" placeholder="HY-YYYYMMDD-XXXX" style="width:100%;padding:14px;background:rgba(8,8,20,.6);border:1px solid rgba(124,92,252,.2);border-radius:14px;color:#e2e8f0;font-size:15px;text-align:center;letter-spacing:2px;font-family:monospace;margin-bottom:12px" maxlength="20">';
-    html+='<div id="authError" style="color:#fc5c5c;font-size:12px;text-align:center;margin-bottom:12px;display:none"></div>';
-    html+='<button onclick="activateAuth()" style="width:100%;padding:14px;background:linear-gradient(135deg,#8b6cff,#5b3fd6);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(124,92,252,.4);margin-bottom:8px">激活授权</button>';
-    html+='<button onclick="closeAuthDialog()" style="width:100%;padding:12px;background:transparent;color:#666;border:1px solid rgba(124,92,252,.1);border-radius:14px;font-size:14px;cursor:pointer">关闭</button>';
-    
-    box.innerHTML=html;
-    dlg.appendChild(box);
-    dlg.onclick=function(e){if(e.target===dlg)closeAuthDialog()};
-    document.body.appendChild(dlg);
-  }catch(e){showErr("showAuthDialog错误:"+e.message)}
-}
-
-function activateAuth(){
-  try{
-    var input=$("authCodeInput");
-    var errEl=$("authError");
-    var code=input.value.trim();
-    
-    if(!code){
-      errEl.textContent="请输入授权码";
-      errEl.style.display="block";
-      return;
-    }
-    
-    var result = verifyAuthCode(code);
-    if(result.valid){
-      lsSet("authData",{code:code,type:"vip",expiry:result.expiry});
-      showToast("✅ 授权激活成功！VIP已开启","success");
-      closeAuthDialog();
-      // 刷新界面
-      if(typeof renderProfile==="function")renderProfile();
-    }else{
-      errEl.textContent=result.msg;
-      errEl.style.display="block";
-      input.style.borderColor="#fc5c5c";
-    }
-  }catch(e){showErr("activateAuth错误:"+e.message)}
-}
-
-function closeAuthDialog(){
-  var dlg=$("authDialog");
-  if(dlg)dlg.remove();
-}
 </script>
 </body>
 <style>
@@ -8259,154 +7849,9 @@ function v409InitCardGlow() {
 }
 
 
-// --- 4. 更新检查功能（不依赖Java Bridge，直接使用XHR） ---
-var v409UpdateInfo = {
-  checking: false,
-  latestVersion: '',
-  downloadUrl: '',
-  releaseNotes: '',
-  hasUpdate: false
-};
-
-function v409CheckUpdate() {
-  if (v409UpdateInfo.checking) {
-    showToast('正在检查中，请稍候...', 'info');
-    return;
-  }
-  v409UpdateInfo.checking = true;
-  showToast('正在检查更新...', 'info');
-
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://api.github.com/repos/19923421354/huanyuai-chat/releases/latest', true);
-  xhr.timeout = 10000;
-  xhr.setRequestHeader('Accept', 'application/vnd.github.v3+json');
-
-  xhr.onload = function() {
-    v409UpdateInfo.checking = false;
-    if (xhr.status >= 200 && xhr.status < 300) {
-      try {
-        var data = JSON.parse(xhr.responseText);
-        v409UpdateInfo.latestVersion = data.tag_name || data.name || 'v1.0.0';
-        v409UpdateInfo.downloadUrl = data.html_url || '';
-        v409UpdateInfo.releaseNotes = data.body || '暂无更新说明';
-
-        // 比较版本号
-        var current = '1.0.0';
-        if (typeof APP_VERSION !== 'undefined') current = APP_VERSION;
-        if (typeof window.APP_VERSION !== 'undefined') current = window.APP_VERSION;
-
-        var latest = v409UpdateInfo.latestVersion.replace(/^v/, '');
-        var currentNorm = current.replace(/^v/, '');
-
-        if (latest !== currentNorm && latest !== 'unknown') {
-          v409UpdateInfo.hasUpdate = true;
-          v409ShowUpdateDialog(data);
-        } else {
-          v409UpdateInfo.hasUpdate = false;
-          showToast('当前已是最新版本 (' + current + ')', 'success');
-        }
-      } catch(e) {
-        showToast('解析更新信息失败: ' + e.message, 'error');
-      }
-    } else {
-      showToast('检查更新失败 (HTTP ' + xhr.status + ')', 'error');
-    }
-  };
-
-  xhr.onerror = function() {
-    v409UpdateInfo.checking = false;
-    showToast('网络错误，无法检查更新，请检查网络连接', 'error');
-  };
-
-  xhr.ontimeout = function() {
-    v409UpdateInfo.checking = false;
-    showToast('检查更新超时，请稍后重试', 'error');
-  };
-
-  xhr.send();
-}
-
-function v409ShowUpdateDialog(data) {
-  // 移除已有对话框
-  var existing = document.getElementById('v409-updateDialog');
-  if (existing) existing.remove();
-
-  var dlg = document.createElement('div');
-  dlg.id = 'v409-updateDialog';
-  dlg.style.cssText =
-    'position:fixed;top:0;left:0;right:0;bottom:0;' +
-    'background:linear-gradient(135deg,rgba(6,6,20,0.85),rgba(15,10,30,0.9));' +
-    'backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);' +
-    'z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;' +
-    'animation:v409-modalIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards;';
-
-  var box = document.createElement('div');
-  box.style.cssText =
-    'background:linear-gradient(135deg,#1a1a3a,#0f0f25);' +
-    'border-radius:24px;padding:28px 24px;max-width:380px;width:100%;' +
-    'border:1px solid rgba(124,92,252,0.2);' +
-    'box-shadow:0 20px 60px rgba(0,0,0,0.6);' +
-    'position:relative;overflow:hidden;';
-
-  var notes = data.body ? data.body.substring(0, 350) : '暂无更新说明';
-  if (data.body && data.body.length > 350) notes += '...';
-  notes = notes.replace(/\n/g, '<br>').replace(/### /g, '<strong>').replace(/## /g, '<strong>').replace(/# /g, '<strong>');
-
-  box.innerHTML =
-    '<div style="text-align:center;margin-bottom:18px">' +
-      '<div style="font-size:36px;margin-bottom:8px;display:inline-block;' +
-        'animation:v409-pulseGlow 2s ease-in-out infinite;padding:4px;">&#11088;</div>' +
-      '<div class="v409-gradient-text" style="font-size:20px;font-weight:800;margin-bottom:4px">发现新版本</div>' +
-      '<div style="font-size:13px;color:#a78bfa;font-weight:600">' +
-        (data.tag_name || 'v1.0.0') +
-      '</div>' +
-    '</div>' +
-    '<div style="background:rgba(124,92,252,0.06);border-radius:14px;padding:14px;' +
-      'margin-bottom:18px;max-height:130px;overflow-y:auto;font-size:12px;color:#999;' +
-      'line-height:1.7;scrollbar-width:thin;">' +
-      notes +
-    '</div>' +
-    '<div style="display:flex;gap:10px">' +
-      '<button onclick="(function(){var a=document.createElement(\'a\');a.href=\'' +
-        (data.html_url || '#') + '\';a.target=\'_blank\';a.style.display=\'none\';' +
-        'document.body.appendChild(a);a.click();setTimeout(function(){a.remove()},100);})()"' +
-        ' style="flex:1;padding:13px;background:linear-gradient(135deg,#8b6cff,#5b3fd6);' +
-        'color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;' +
-        'cursor:pointer;box-shadow:0 4px 20px rgba(124,92,252,0.4);' +
-        'transition:all 0.25s ease" ' +
-        'onmouseover="this.style.transform=\'translateY(-1px)\';this.style.boxShadow=\'0 6px 28px rgba(124,92,252,0.5)\'"' +
-        'onmouseout="this.style.transform=\'translateY(0)\';this.style.boxShadow=\'0 4px 20px rgba(124,92,252,0.4)\'">' +
-        '前往下载' +
-      '</button>' +
-      '<button onclick="v409CloseUpdateDialog()"' +
-        ' style="padding:13px 18px;background:rgba(124,92,252,0.1);color:#a78bfa;' +
-        'border:1px solid rgba(124,92,252,0.15);border-radius:14px;font-size:14px;' +
-        'font-weight:600;cursor:pointer;transition:all 0.25s ease" ' +
-        'onmouseover="this.style.background=\'rgba(124,92,252,0.2)\'"' +
-        'onmouseout="this.style.background=\'rgba(124,92,252,0.1)\'">' +
-        '稍后再说' +
-      '</button>' +
-    '</div>';
-
-  dlg.appendChild(box);
-  dlg.onclick = function(e) {
-    if (e.target === dlg) v409CloseUpdateDialog();
-  };
-  document.body.appendChild(dlg);
-}
-
-function v409CloseUpdateDialog() {
-  var dlg = document.getElementById('v409-updateDialog');
-  if (dlg) {
-    dlg.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
-    dlg.style.opacity = '0';
-    dlg.style.transform = 'scale(0.95)';
-    setTimeout(function() { dlg.remove(); }, 200);
-  }
-}
-
 
 // --- 5. 下载进度条增强（显示已下载/总大小、网速、剩余时间） ---
+// 已移除
 var v409DownloadXHR = null;
 
 function v409EnhanceDownload(url, filename) {

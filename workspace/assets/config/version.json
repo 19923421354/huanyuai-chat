@@ -1,14 +1,16 @@
 {
-  "version": "4.6.0",
-  "version_code": 68,
-  "code": 68,
+  "version": "4.8.0",
+  "version_code": 70,
+  "code": 70,
   "size": "约 4.8 MB",
   "date": "2026-08-09",
-  "downloadUrl": "https://github.com/19923421354/huanyuai-chat/releases/download/v4.6.0/huanyuai-chat-v4.6.0.apk",
+  "downloadUrl": "https://github.com/19923421354/huanyuai-chat/releases/download/v4.8.0/huanyuai-chat-v4.8.0.apk",
   "features": [
-    "v4.6.0 全新专业成熟应用图标，彻底去幼稚化，高端商务风格",
-    "v4.6.0 修复APK安装兼容性问题（v2+v3完整签名方案）",
-    "v4.6.0 优化用户体验，提升界面美观度",
-    "v4.6.0 所有代码完全开源"
+    "v4.8.0 全新精美应用图标，减少黑色，更专业美观",
+    "v4.8.0 移除无用伪功能（授权激活、会员订阅等）",
+    "v4.8.0 修复检查更新功能，显示真实更新日志",
+    "v4.8.0 增加更新日志查看功能，查看历史版本",
+    "v4.8.0 优化用户体验，提升性能",
+    "v4.8.0 所有代码完全开源"
   ]
 }

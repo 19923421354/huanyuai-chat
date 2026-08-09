@@ -1,0 +1,14 @@
+{
+  "version": "4.8.2",
+  "version_code": 72,
+  "code": 72,
+  "size": "约 4.8 MB",
+  "date": "2026-08-09",
+  "downloadUrl": "https://github.com/19923421354/huanyuai-chat/releases/download/v4.8.2/huanyuai-chat-v4.8.2.apk",
+  "features": [
+    "v4.8.2 修复旧版本(v4.0.x)检测不到新版本的问题",
+    "v4.8.2 修复安装兼容性问题",
+    "v4.8.2 优化检查更新逻辑，更可靠",
+    "v4.8.2 所有代码完全开源"
+  ]
+}

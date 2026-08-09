@@ -1,14 +1,14 @@
 {
-  "version": "4.8.4",
-  "version_code": 74,
-  "code": 74,
+  "version": "4.9.0",
+  "version_code": 75,
+  "code": 75,
   "size": "约 4.4 MB",
   "date": "2026-08-09",
-  "downloadUrl": "https://github.com/19923421354/huanyuai-chat/releases/download/v4.8.4/huanyuai-chat-v4.8.4.apk",
+  "downloadUrl": "https://github.com/19923421354/huanyuai-chat/releases/download/v4.9.0/huanyuai-chat-v4.9.0.apk",
   "features": [
-    "v4.8.4 彻底修复版本号显示问题！",
-    "v4.8.4 基于 v4.8.3 构建，保留正确 AndroidManifest.xml",
-    "v4.8.4 修复 versionCode 和 versionName",
-    "v4.8.4 所有代码完全开源"
+    "v4.9.0 全新图标！零黑色，纯色彩",
+    "v4.9.0 修复安装兼容性 - 保留原始APK结构",
+    "v4.9.0 继续优化UI界面",
+    "v4.9.0 所有代码完全开源"
   ]
 }

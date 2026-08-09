@@ -1,7 +1,7 @@
 {
-  "version": "4.5.1",
-  "versionCode": 67,
-  "updateMsg": "v4.5.1 修复兼容性+全新成熟专业图标：\n1. 全新成熟专业应用图标（深色高端风格，无幼稚元素）\n2. 修复APK安装兼容性问题（4字节对齐+完整签名）\n3. 优化用户体验",
+  "version": "4.6.0",
+  "versionCode": 68,
+  "updateMsg": "v4.6.0 修复兼容性+全新专业图标：\n1. 全新专业成熟应用图标，彻底去幼稚化，高端商务风格\n2. 修复APK安装兼容性问题（v2+v3完整签名）\n3. 优化用户体验",
   "url": "https://github.com/19923421354/huanyuai-chat/releases",
   "forceUpdate": false
 }

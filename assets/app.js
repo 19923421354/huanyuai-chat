@@ -8032,8 +8032,8 @@ function updateMsgBadge(){
 }
 
 // ===== 检查更新 =====
-var APP_VERSION="6.0.0";
-var APP_VERSION_CODE=77;
+var APP_VERSION="4.9.1";
+var APP_VERSION_CODE=70;
 var UPDATE_SOURCES=[
   "https://raw.githubusercontent.com/19923421354/huanyuai-chat/main/version.json",
   "https://cdn.jsdelivr.net/gh/19923421354/huanyuai-chat@main/version.json"
@@ -8043,20 +8043,19 @@ var UPDATE_FALLBACK_URL="https://github.com/19923421354/huanyuai-chat/releases";
 // ===== 版本历史 / 更新日志 =====
 var VERSION_HISTORY=[
   {
-    version:"v6.0.0",
+    version:"v4.9.1",
     date:"2026-08-20",
-    title:"🔧 检查更新修复 · 本地模型强化 · Bug清除",
+    title:"检查更新修复 · 重复函数清理 · 本地模型兜底增强",
     changes:[
-      "🔧 【关键修复】检查更新功能——之前只能用Android Bridge检查，现在增加XMLHttpRequest直接联网检查，确保能检测到新版本",
-      "🤖 【修复】本地模型——不再强制local模式，保留用户选择；API未配置时自动降级到本地兜底引擎",
-      "🐛 【修复】closeMusicPanel重复定义——第三个版本缺少stopConversationMusic()调用，导致音乐无法停止",
-      "🐛 【修复】toggleFavorite重复定义——消息收藏和角色收藏同名函数冲突，已分离为toggleMsgFavorite",
-      "🐛 【修复】doRequest本地兜底——API未配置时自动降级到本地引擎，不再显示「未配置AI引擎」",
-      "🔄 更新版本号至v6.0.0，versionCode: 77"
+      "🔧 检查更新功能修复：新增XMLHttpRequest直接联网检查，替代仅依赖Android Bridge的旧方案",
+      "🐛 修复closeMusicPanel重复定义（第三个定义缺少stopConversationMusic调用）",
+      "🐛 修复toggleFavorite函数冲突（消息收藏和角色收藏同名，已分离为toggleMsgFavorite）",
+      "🤖 本地模型降级增强：API未配置时自动使用本地兜底引擎，不再显示空错误",
+      "🔧 移除cfg.mode强制覆盖：不再强制设置为local模式，保留用户选择"
     ]
   },
   {
-    version:"v5.0.0",
+    version:"v4.9.0",
     date:"2026-08-20",
     title:"🐍 贪吃蛇AI敌人系统 · 翻译修复 · 6个新功能",
     changes:[

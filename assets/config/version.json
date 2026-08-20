@@ -1,15 +1,15 @@
 {
-  "version": "6.0.0",
-  "version_code": 77,
-  "code": 77,
+  "version": "4.9.1",
+  "version_code": 70,
+  "code": 70,
   "size": "约 4.5 MB",
   "date": "2026-08-20",
-  "downloadUrl": "https://github.com/19923421354/huanyuai-chat/releases/download/v6.0.0/huanyuai-chat-v6.0.0.apk",
+  "downloadUrl": "https://github.com/19923421354/huanyuai-chat/releases/download/v4.9.1/huanyuai-chat-v4.9.1.apk",
   "features": [
-    "v6.0.0 🔧 检查更新修复——增加XMLHttpRequest联网检查",
-    "v6.0.0 🤖 本地模型修复——不再强制local模式",
-    "v6.0.0 🐛 修复closeMusicPanel/toggleFavorite重复定义",
-    "v6.0.0 🐛 修复doRequest——API未配置时自动降级本地引擎",
-    "v6.0.0 🔄 更新版本号至v6.0.0"
+    "v4.9.1 🔧 检查更新功能修复——新增XMLHttpRequest直接联网检查",
+    "v4.9.1 🐛 修复closeMusicPanel重复定义（音乐无法停止）",
+    "v4.9.1 🐛 修复toggleFavorite函数冲突（消息/角色收藏同名）",
+    "v4.9.1 🤖 本地模型降级增强——API未配置自动使用本地引擎",
+    "v4.9.1 🔧 移除强制local模式，保留用户选择"
   ]
 }

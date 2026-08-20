@@ -1,7 +1,7 @@
 {
-  "version": "6.0.0",
-  "versionCode": 77,
-  "updateMsg": "v6.0.0 检查更新修复+本地模型强化+Bug清除\n1. 🔧 检查更新功能彻底修复！增加XMLHttpRequest联网检查，Android WebView也能检测到新版本\n2. 🤖 本地模型修复——不再强制local模式，API未配置时自动降级到本地兜底引擎\n3. 🐛 修复closeMusicPanel重复定义，音乐现在能正常停止\n4. 🐛 修复toggleFavorite冲突，消息收藏和角色收藏不再打架\n5. 🐛 修复doRequest——API未配置时自动使用本地引擎，不会再显示「未配置AI引擎」\n6. 🔄 更新版本号至v6.0.0",
+  "version": "4.9.1",
+  "versionCode": 70,
+  "updateMsg": "v4.9.1 检查更新修复+重复函数清理+本地模型兜底增强\n1. 🔧 检查更新功能修复——新增XMLHttpRequest直接联网检查\n2. 🐛 修复closeMusicPanel重复定义（音乐无法停止）\n3. 🐛 修复toggleFavorite函数冲突（消息/角色收藏同名）\n4. 🤖 本地模型降级增强——API未配置自动使用本地引擎\n5. 🔧 移除强制local模式，保留用户选择",
   "url": "https://github.com/19923421354/huanyuai-chat/releases",
   "forceUpdate": false
 }

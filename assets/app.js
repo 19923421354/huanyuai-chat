@@ -256,8 +256,8 @@ function apiPost(path, body, cb){
 
 var cfg=lsGet("cfg");
 if(!cfg){cfg={mode:"local",type:"ollama",url:"http://localhost:11434",model:"qwen2.5:7b",key:"",ctx:8,temp:0.8,max:512,localModel:"本地兜底引擎",importedModelId:"",topP:0.9,topK:40,repPen:1.1,sysPrompt:"",typeSpeed:30,minLen:20,autoScroll:true,showHeart:true,showTimestamp:false,enterSend:false,fontSize:15,bubbleStyle:"rounded",glow:true,blur:true,anim:true,pulse:true,backend:"auto",quant:"q4",mirror:"auto",autoLoad:false,cacheModel:true,streamOut:true};lsSet("cfg",cfg)}
-// v9.9.10 强制使用本地兜底引擎，确保任何设备、无网络都能对话/创建
-cfg.mode="local";
+// v6.0.0 改进：不再强制local模式，保留用户选择
+// 但确保localFallbackReady始终可用（兜底引擎）
 cfg.localModel=cfg.localModel||"本地兜底引擎";
 lsSet("cfg",cfg)
 // v9.9.10 注意：webllmLoaded/webllmModel/localFallbackReady 的初始化移到变量声明之后，避免被 var=false 覆盖
@@ -2535,9 +2535,17 @@ function doRequest(am,cb,onChunk){
       return;
     }
     // 轻量对话引擎（模板系统，无需WebGPU，始终可用）
-    if(cfg.mode==="local"&&localFallbackReady){
-      doLocalFallbackRequest(am,cb,onChunk);
-      return;
+    if(localFallbackReady){
+      // v6.0.0 当API未配置或local模式时使用本地兜底
+      if(cfg.mode==="local"){
+        doLocalFallbackRequest(am,cb,onChunk);
+        return;
+      }
+      // API模式但未配置 → 降级本地
+      if(!cfg.url||!cfg.model){
+        doLocalFallbackRequest(am,cb,onChunk);
+        return;
+      }
     }
     // API 模式
     if(!cfg.url||!cfg.model){
@@ -5732,7 +5740,7 @@ function showMsgLongPressMenu(idx, ev){
     var h = '<div class="mlp-mask" onclick="$(\'msgLongPressMenu\').remove()"></div>';
     h += '<div class="mlp-sheet">';
     h += '<div class="mlp-snip">'+(m.r==="me"?"我":esc(curRole.name||"AI"))+'：'+esc(String(m.t||"").substring(0,60))+'...</div>';
-    h += '<div class="mlp-item" onclick="toggleFavorite('+idx+');$(\'msgLongPressMenu\').remove()"><span>⭐</span>'+(isFav?'取消收藏':'收藏')+'</div>';
+    h += '<div class="mlp-item" onclick="toggleMsgFavorite('+idx+');$(\'msgLongPressMenu\').remove()"><span>⭐</span>'+(isFav?'取消收藏':'收藏')+'</div>';
     h += '<div class="mlp-item" onclick="copyMsgText('+idx+');$(\'msgLongPressMenu\').remove()"><span>📋</span>复制</div>';
     h += '<div class="mlp-item" onclick="speakMsg('+idx+');$(\'msgLongPressMenu\').remove()"><span>🔊</span>朗读</div>';
     h += '<div class="mlp-item danger" onclick="delMsg('+idx+',event);$(\'msgLongPressMenu\').remove()"><span>🗑</span>删除</div>';
@@ -5848,7 +5856,7 @@ function __getFavs(){
 function __saveFavs(arr){
   try{ lsSet("favoriteMessages", arr || []); }catch(e){}
 }
-function toggleFavorite(idx, ev){
+function toggleMsgFavorite(idx, ev){
   try{
     if(ev) ev.stopPropagation();
     if(!curRole) return;
@@ -8024,8 +8032,8 @@ function updateMsgBadge(){
 }
 
 // ===== 检查更新 =====
-var APP_VERSION="5.0.0";
-var APP_VERSION_CODE=76;
+var APP_VERSION="6.0.0";
+var APP_VERSION_CODE=77;
 var UPDATE_SOURCES=[
   "https://raw.githubusercontent.com/19923421354/huanyuai-chat/main/version.json",
   "https://cdn.jsdelivr.net/gh/19923421354/huanyuai-chat@main/version.json"
@@ -8034,6 +8042,19 @@ var UPDATE_FALLBACK_URL="https://github.com/19923421354/huanyuai-chat/releases";
 
 // ===== 版本历史 / 更新日志 =====
 var VERSION_HISTORY=[
+  {
+    version:"v6.0.0",
+    date:"2026-08-20",
+    title:"🔧 检查更新修复 · 本地模型强化 · Bug清除",
+    changes:[
+      "🔧 【关键修复】检查更新功能——之前只能用Android Bridge检查，现在增加XMLHttpRequest直接联网检查，确保能检测到新版本",
+      "🤖 【修复】本地模型——不再强制local模式，保留用户选择；API未配置时自动降级到本地兜底引擎",
+      "🐛 【修复】closeMusicPanel重复定义——第三个版本缺少stopConversationMusic()调用，导致音乐无法停止",
+      "🐛 【修复】toggleFavorite重复定义——消息收藏和角色收藏同名函数冲突，已分离为toggleMsgFavorite",
+      "🐛 【修复】doRequest本地兜底——API未配置时自动降级到本地引擎，不再显示「未配置AI引擎」",
+      "🔄 更新版本号至v6.0.0，versionCode: 77"
+    ]
+  },
   {
     version:"v5.0.0",
     date:"2026-08-20",
@@ -8198,19 +8219,37 @@ function checkUpdate(isAuto){
     if(statusEl){statusEl.textContent="正在检查更新...";statusEl.style.color="#fcb85c"}
     if(!isAuto)showToast("🔄 正在检查更新...");
 
-    // v9.9.9 优先读取打包在 assets 中的版本信息（无需联网即可检测）
-    var localVersion=readLocalVersionJson();
-    if(localVersion&&localVersion.version){
-      processResult(localVersion,realVer);
-      // 后台再尝试联网检查（不阻塞）
-      setTimeout(tryNetworkCheck,300);
-      return;
+    // ===== 方案1: 直接XHR联网检查（推荐，Android WebView通用） =====
+    tryNetworkXHR(0);
+
+    function tryNetworkXHR(idx){
+      if(idx>=UPDATE_SOURCES.length){
+        // 方案2: Android Bridge联网
+        tryNetworkBridge();
+        return;
+      }
+      var url=UPDATE_SOURCES[idx]+'?t='+Date.now();
+      var xhr=new XMLHttpRequest();
+      xhr.open("GET",url,true);
+      xhr.timeout=10000;
+      xhr.onload=function(){
+        try{
+          if(xhr.status===200){
+            var data=JSON.parse(xhr.responseText);
+            if(data&&data.version){
+              processResult(data,realVer);
+              return;
+            }
+          }
+        }catch(e){}
+        tryNetworkXHR(idx+1);
+      };
+      xhr.onerror=function(){tryNetworkXHR(idx+1)};
+      xhr.ontimeout=function(){tryNetworkXHR(idx+1)};
+      xhr.send();
     }
 
-    // 无本地版本信息时尝试联网
-    tryNetworkCheck();
-
-    function tryNetworkCheck(){
+    function tryNetworkBridge(){
       try{
         if(window.App&&typeof window.App.fetchUrl==="function"){
           for(var i=0;i<UPDATE_SOURCES.length;i++){
@@ -8224,6 +8263,12 @@ function checkUpdate(isAuto){
           }
         }
       }catch(e){}
+      // 方案3: 读取本地版本信息兜底
+      var localVersion=readLocalVersionJson();
+      if(localVersion&&localVersion.version){
+        processResult(localVersion,realVer);
+        return;
+      }
       showFallback(realVer);
     }
 
@@ -29851,7 +29896,7 @@ function openMusicPanel(){
     o.className="music-overlay show";
   }catch(e){}
 }
-function closeMusicPanel(){try{$("musicOverlay").className="music-overlay"}catch(e){}}
+function closeMusicPanel(){try{stopConversationMusic();$("musicOverlay").className="music-overlay"}catch(e){}}
 function renderMusic(){
   try{
     var b=$("musicBody");if(!b)return;

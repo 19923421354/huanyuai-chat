@@ -1,7 +1,13 @@
 {
   "version": "4.9.1",
   "versionCode": 70,
-  "updateMsg": "v4.9.1 检查更新修复+重复函数清理+本地模型兜底增强\n1. 🔧 检查更新功能修复——新增XMLHttpRequest直接联网检查\n2. 🐛 修复closeMusicPanel重复定义（音乐无法停止）\n3. 🐛 修复toggleFavorite函数冲突（消息/角色收藏同名）\n4. 🤖 本地模型降级增强——API未配置自动使用本地引擎\n5. 🔧 移除强制local模式，保留用户选择",
-  "url": "https://github.com/19923421354/huanyuai-chat/releases",
+  "updateMsg": "v4.9.1 检查更新修复+重复函数清理+本地模型兜底增强
+1. 🔧 检查更新功能修复——新增XMLHttpRequest直接联网检查
+2. 🐛 修复closeMusicPanel重复定义（音乐无法停止）
+3. 🐛 修复toggleFavorite函数冲突（消息/角色收藏同名）
+4. 🤖 本地模型降级增强——API未配置自动使用本地引擎
+5. 🔧 移除强制local模式，保留用户选择
+6. 📱 修复index.html缺失CSS——恢复完整UI样式（188KB恢复）",
+  "url": "https://github.com/19923421354/huanyuai-chat/releases/download/v4.9.1/huanyuai-chat-v4.9.1.apk",
   "forceUpdate": false
 }

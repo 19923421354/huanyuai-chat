@@ -1,14 +1,15 @@
 {
-  "version": "4.8.2",
-  "version_code": 72,
-  "code": 72,
-  "size": "约 4.8 MB",
-  "date": "2026-08-09",
-  "downloadUrl": "https://github.com/19923421354/huanyuai-chat/releases/download/v4.8.2/huanyuai-chat-v4.8.2.apk",
+  "version": "5.0.0",
+  "version_code": 76,
+  "code": 76,
+  "size": "约 4.5 MB",
+  "date": "2026-08-20",
+  "downloadUrl": "https://github.com/19923421354/huanyuai-chat/releases/download/v5.0.0/huanyuai-chat-v5.0.0.apk",
   "features": [
-    "v4.8.2 修复 AndroidManifest.xml 中 versionName 显示问题（现已正确显示为 4.8.2）",
-    "v4.8.2 修复安装兼容性问题",
-    "v4.8.2 优化检查更新逻辑，更可靠",
-    "v4.8.2 所有代码完全开源"
+    "v5.0.0 🐍 贪吃蛇AI敌人系统！敌人会追踪你",
+    "v5.0.0 🌐 翻译功能修复——接入真实翻译API",
+    "v5.0.0 🧩 修复6个缺失功能：拼图/射箭/密室/记忆/填字/漂流瓶",
+    "v5.0.0 🎨 贪吃蛇视觉升级+关卡系统+道具系统",
+    "v5.0.0 📋 所有代码完全开源"
   ]
 }

@@ -1,15 +1,7 @@
 {
-  "version": "4.9.0",
-  "versionCode": 75,
-  "updateMsg": "v4.9.0 全新图标！零黑色，纯色彩\n1. 修复版本号显示问题\n2. 修复更新日志\n3. UI优化",
+  "version": "5.0.0",
+  "versionCode": 76,
+  "updateMsg": "v5.0.0 重大更新！贪吃蛇AI敌人系统+翻译修复+6个新游戏\n1. 🐍 贪吃蛇完全重做！新增AI敌人系统（追踪你的蛇）、关卡系统（10级）、道具系统（⭐🛡️💎⚡）\n2. 🌐 翻译功能修复！接入真实翻译API（MyMemory），不再模拟翻译\n3. 🧩 修复6个缺失功能：拼图挑战、射箭、密室逃脱、记忆矩阵、填字游戏、漂流瓶\n4. 🎨 贪吃蛇视觉全面升级：渐变蛇身、敌人发光动画、道具特效、无敌模式\n5. 📋 所有代码完全开源，功能完整可用",
   "url": "https://github.com/19923421354/huanyuai-chat/releases",
-  "forceUpdate": false,
-  "downloadUrl": "https://github.com/19923421354/huanyuai-chat/releases/download/v4.9.0/huanyuai-chat-v4.9.0.apk",
-  "size": "约 4.4 MB",
-  "features": [
-    "v4.9.0 全新图标！零黑色，纯色彩",
-    "v4.9.0 彻底修复版本号显示",
-    "v4.9.0 修复更新日志",
-    "v4.9.0 UI优化"
-  ]
+  "forceUpdate": false
 }

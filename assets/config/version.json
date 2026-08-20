@@ -2,7 +2,7 @@
   "version": "4.9.1",
   "version_code": 70,
   "code": 70,
-  "size": "约 4.5 MB",
+  "size": "约 4.8 MB",
   "date": "2026-08-20",
   "downloadUrl": "https://github.com/19923421354/huanyuai-chat/releases/download/v4.9.1/huanyuai-chat-v4.9.1.apk",
   "features": [
@@ -10,6 +10,7 @@
     "v4.9.1 🐛 修复closeMusicPanel重复定义（音乐无法停止）",
     "v4.9.1 🐛 修复toggleFavorite函数冲突（消息/角色收藏同名）",
     "v4.9.1 🤖 本地模型降级增强——API未配置自动使用本地引擎",
-    "v4.9.1 🔧 移除强制local模式，保留用户选择"
+    "v4.9.1 🔧 移除强制local模式，保留用户选择",
+    "v4.9.1 📱 修复index.html缺失CSS——恢复完整UI样式（188KB恢复）"
   ]
 }

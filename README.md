@@ -4,7 +4,7 @@
   <a href="https://github.com/19923421354/huanyuai-chat/releases"><img src="https://img.shields.io/github/v/release/19923421354/huanyuai-chat?color=brightgreen&label=最新版本" alt="Release"></a>
   <a href="https://github.com/19923421354/huanyuai-chat/stargazers"><img src="https://img.shields.io/github/stars/19923421354/huanyuai-chat?style=social" alt="Stars"></a>
   <a href="https://github.com/19923421354/huanyuai-chat/network"><img src="https://img.shields.io/github/forks/19923421354/huanyuai-chat?style=social" alt="Forks"></a>
-  <a href="https://github.com/19923421354/huanyuai-chat/releases/download/v4.0.5/huanyuai-chat-v4.0.5.apk"><img src="https://img.shields.io/badge/下载-APK%20v4.0.5-8b6cff" alt="下载APK"></a>
+  <a href="https://github.com/19923421354/huanyuai-chat/releases/download/v5.0.0/huanyuai-chat-v5.0.0.apk"><img src="https://img.shields.io/badge/下载-APK%20v5.0.0-8b6cff" alt="下载APK"></a>
   <a href="https://img.shields.io/github/downloads/19923421354/huanyuai-chat/total"><img src="https://img.shields.io/github/downloads/19923421354/huanyuai-chat/total?color=orange&label=下载量" alt="Downloads"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/19923421354/huanyuai-chat" alt="License"></a>
 </p>
@@ -32,7 +32,25 @@
 - 🔄 **检查更新**：应用内可联网检测 GitHub 最新版本并提示升级（v4.0.0修复误报bug）
 - 📋 **更新日志**：应用内可查看各版本更新内容
 
-## 🆕 v4.0.1 更新内容
+## 🆕 v5.0.0 🆕
+
+> **🎉 综合大版本（2026-10-24）· 代码侧全面增强**
+
+### ✨ 新增功能
+- 🧩 **V5 增强台**：右下角悬浮按钮一键呼出，主题/导出/搜索/指令四合一
+- 🎨 **三套主题**：浅色 / 深色 / 护眼即时切换，偏好自动记忆
+- 📤 **对话导出**：JSON / Markdown / 纯文本三种格式，随时备份分享
+- 🔍 **全文搜索**：对话内关键词定位 + 逐处高亮跳转
+- ⚡ **快捷指令**：总结 / 翻译 / 深究 / 修码 / 润色 / 科普一键插入
+- 🔤 **字号缩放**：无级放大缩小 + 一键复位；字数统计随时可查
+
+### 🛠 🔬 工程改动
+- 增强模块独立为 `assets/v5_enhance.js`，与主程序解耦，可热更新
+- `version.json` 升至 5.0.0 / version_code 500，内置应用内更新检测
+
+> ⚠️ v5.0.0 使用全新签名证书，若覆盖安装提示冲突，请先卸载旧版再安装。
+
+## 🆕 v5.0.0 更新内容
 
 - **新增语音朗读优化**：支持语速调节、暂停/继续朗读
 - **新增消息收藏管理器**：查看和管理所有收藏的消息
@@ -51,7 +69,7 @@
 
 ## 📲 下载安装
 
-> ⬇️ **直接下载 APK：** [幻语AI v4.0.5 APK（约 4.5 MB）](https://github.com/19923421354/huanyuai-chat/releases/download/v4.0.5/huanyuai-chat-v4.0.5.apk)
+> ⬇️ **直接下载 APK：** [幻语AI v5.0.0 APK（约 4.5 MB）](https://github.com/19923421354/huanyuai-chat/releases/download/v5.0.0/huanyuai-chat-v5.0.0.apk)
 
 - 最低系统：Android 5.0 (API 21)
 - 目标系统：Android 14 (API 34)
